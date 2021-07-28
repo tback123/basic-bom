@@ -1,2 +1,2 @@
-# basic-BOM
+# basic-bom
 A basic billof materials platform.
