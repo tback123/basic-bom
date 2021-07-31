@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/NavBar';
-import ComponentList from './components/ComponentList';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
-import { yellow, red } from '@material-ui/core/colors';
+import Body from './components/Body';
 
 const theme = createTheme({
   palette: {
@@ -20,7 +19,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
-      <ComponentList />
+      <Body />
     </ThemeProvider>
 
   );
