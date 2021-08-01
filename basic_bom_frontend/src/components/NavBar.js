@@ -14,7 +14,6 @@ function Navbar(props) {
   const theme = useTheme();
 
   return (
-    <Grid item >
       <AppBar position="static" color="primary">
         <Toolbar >
           <IconButton
@@ -28,7 +27,6 @@ function Navbar(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-    </Grid>
   );
 };
 

@@ -3,6 +3,7 @@ import './App.css';
 import Navbar from './components/NavBar';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Body from './components/Body';
+import { Box } from '@material-ui/core';
 
 const theme = createTheme({
   palette: {
@@ -18,8 +19,15 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
-      <Body />
+      <Box component="span" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <Navbar />
+        <Body />
+      </Box>
     </ThemeProvider>
 
   );

@@ -1,13 +1,13 @@
-import { Container } from "@material-ui/core";
+import { Box, useTheme } from "@material-ui/core";
 import PartList from "./PartList";
 
 
 function Body() {
-
+    const theme = useTheme();
     return (<>
-        <Container>
+        <Box width="95%">
             <PartList />
-        </Container>
+        </Box>
     </>)
 }
 
