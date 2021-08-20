@@ -9,16 +9,17 @@ Things you may want to cover:
 v3.0.2
 
 ### System dependencies
-- Postgress vX.X.X
+- Postgress v1.2.3
 
 ### Configuration
 
 ### Database creation
-`cd basic_bom_backend`
-`rake db:setup`
+```
+cd basic_bom_backend
+rake db:setup
+```
 
 ### Database initialization
-`rake db:setup`
 
 ### How to run the test suite
 
@@ -27,10 +28,17 @@ v3.0.2
 
 * Deployment instructions
 
-* ...
+
 
 
 ## Other
 
-## Change of database
+### Creation
+This app was created with:
+```
+rails new basic_bom_backend --api -d=postgresql
+```
+
+
+### Change of database
 The command `rails db:system:change --to=postgresql` was used to migrate the getting started sqlite3 database to the postgresql database adaptor thanks to [this guide](https://gorails.com/episodes/rails-6-db-system-change-command)
