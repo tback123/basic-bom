@@ -24,6 +24,11 @@ default: &default
 development:
   <<: *default
   database: basic_bom_backend_development
+  host: localhost
+  port: 5432
+  username: basic_bom
+  password: "test"
+  
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,6 +63,10 @@ development:
 test:
   <<: *default
   database: basic_bom_backend_test
+  host: localhost
+  port: 5432
+  username: basic_bom
+  password: "test"
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
