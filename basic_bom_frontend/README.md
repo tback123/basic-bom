@@ -1,3 +1,9 @@
+# Basic BOM Frontend
+More details to come soon!
+
+> This readme hasn't been updated yet, just run it a see what it looks like :)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
