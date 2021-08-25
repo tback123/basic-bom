@@ -7,7 +7,7 @@ The entire application is contained within the `basic_bom_backend` file.
 `config/database.yml` outlines the connection to a postgress database.
 
 ## Setup
-See [README.md](README.MD) for setup & startup information
+See [README.md](README.md) for setup & startup information
 
 # REST API
 
