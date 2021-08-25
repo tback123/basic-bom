@@ -2,7 +2,10 @@ Rails.application.routes.draw do
 
   root "parts#index"
 
-  resources :parts
+  namespace :api do
+    namespace :v1 do
+      resources :parts
+    end
+  end
 
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
