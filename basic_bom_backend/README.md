@@ -1,10 +1,10 @@
-# README
+# Basic Bom Backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A more detailed description of the basic bom project to come!
 
-Things you may want to cover:
+For now, have a look at the [API v1 docs](API_v1.md) to get a feel of what is possible!
 
+Boring stuff below...
 ### Ruby version
 v3.0.2
 
