@@ -6,19 +6,8 @@ The entire application is contained within the `basic_bom_backend` file.
 
 `config/database.yml` outlines the connection to a postgress database.
 
-
-
-## Install
-```
-    bundle install
-```
-## Run the app
-```
-    unicorn -p 7000
-```
-## Run the tests
-
-    ./run-tests.sh
+## Setup
+See [README.md](README.MD) for setup & startup information
 
 # REST API
 
