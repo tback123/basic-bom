@@ -1,5 +1,5 @@
-# basic-bom
-A basic billof materials platform.
+# Basic Bom
+A basic bill of materials platform.
 > A Note: Stil very much in development
 
 More detailed information to come soon!
