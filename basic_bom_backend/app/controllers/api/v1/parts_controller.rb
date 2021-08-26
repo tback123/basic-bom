@@ -48,7 +48,7 @@ module Api::V1
             begin
                 @part = Part.find(params[:id])
                 @part.destroy
-                json_response("")
+                json_response("status"=>"success")
             rescue => e
                 json_response(e, 400)
             end 
