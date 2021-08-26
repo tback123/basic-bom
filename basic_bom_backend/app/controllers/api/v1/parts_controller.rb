@@ -37,7 +37,7 @@ module Api::V1
                 @part = Part.find(params[:id])
                 @part.update(part_params)
                 @part.save()
-                json_response(@part2)
+                json_response(@part)
             rescue => e
                 json_response(e, 400)
             end
