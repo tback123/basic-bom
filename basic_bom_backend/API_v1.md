@@ -16,6 +16,12 @@ A part has the following fields that can be created, updated or queried.
 {
     "description": string,
     "drawing": boolean,
+    "part_num": string,
+    "revision": int,
+    "qty_per": int,
+    "order_qty": int,
+    "design_eng_comments": string,
+    "stock": int
 }
 ```
 The database stores this model with some additional fields which are returned when a part model is queried.
@@ -32,6 +38,12 @@ Therefore the total returned model for a part is:
     "id": int,
     "description": string,
     "drawing": boolean,
+    "part_num": string,
+    "revision": int,
+    "qty_per": int,
+    "order_qty": int,
+    "design_eng_comments": string,
+    "stock": int,
     "created_at": string,
     "updated_at": string
 }
