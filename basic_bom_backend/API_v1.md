@@ -43,7 +43,7 @@ Therefore the total returned model for a part is:
     "qty_per": int,
     "order_qty": int,
     "design_eng_comments": string,
-    "stock": int,
+    "stock_qty": int,
     "created_at": string,
     "updated_at": string
 }
