@@ -10,14 +10,20 @@ module Api::V1
 
         # POST /parts
         def create
-            # Create and save a new part with the book paramaters
-            @part = Part.create(part_params)
 
-            if @part.valid?
-                json_response(@part)
-            else
-                json_response(@part.errors, 400)
+            begin
+                # Create and save a new part with the book paramaters
+                @part = Part.create(part_params)
+
+                if @part.valid?
+                    json_response(@part)
+                else
+                    json_response(@part.errors, 400)
+                end
+            rescue => e
+                json_response(e, 400)
             end
+
         end
 
         # GET /parts/:id
@@ -57,7 +63,18 @@ module Api::V1
 
         private
             def part_params
-                params.permit(:description, :drawing, :id, :created_at, :updated_at )
+                params.permit(:description, 
+                            :drawing, 
+                            :id, 
+                            :created_at, 
+                            :updated_at,
+                            :part_num,
+                            :revision,
+                            :qty_per,
+                            :order_qty,
+                            :design_eng_comments,
+                            :stock_qty,
+                            :bom_type)
             end
 
     end

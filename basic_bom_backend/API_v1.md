@@ -45,7 +45,7 @@ Therefore the total returned model for a part is:
     "order_qty": int,
     "design_eng_comments": string,
     "stock_qty": int,
-    "type": ["component", "int_assembly", "ext_assembly", "installation"],
+    "bom_type": ["component", "int_assembly", "ext_assembly", "installation"],
     "created_at": string,
     "updated_at": string
 }
