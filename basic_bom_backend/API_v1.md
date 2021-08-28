@@ -21,7 +21,8 @@ A part has the following fields that can be created, updated or queried.
     "qty_per": int,
     "order_qty": int,
     "design_eng_comments": string,
-    "stock": int
+    "stock": int,
+    "type": ["component", "int_assembly", "ext_assembly", "installation"]
 }
 ```
 The database stores this model with some additional fields which are returned when a part model is queried.
@@ -44,6 +45,7 @@ Therefore the total returned model for a part is:
     "order_qty": int,
     "design_eng_comments": string,
     "stock_qty": int,
+    "type": ["component", "int_assembly", "ext_assembly", "installation"],
     "created_at": string,
     "updated_at": string
 }
