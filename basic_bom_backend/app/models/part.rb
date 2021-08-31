@@ -15,5 +15,6 @@ class Part < ApplicationRecord
     validates   :source,    presence: true
 
     belongs_to :material, inverse_of: :parts
+    belongs_to :location, inverse_of: :parts
 
 end

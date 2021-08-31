@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_31_005929) do
+ActiveRecord::Schema.define(version: 2021_08_31_033019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "building"
+    t.string "room"
+    t.string "area"
+    t.string "specifics"
+    t.text "comments"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "materials", force: :cascade do |t|
     t.string "name"
@@ -36,8 +47,11 @@ ActiveRecord::Schema.define(version: 2021_08_31_005929) do
     t.integer "bom_type"
     t.integer "source"
     t.bigint "material_id"
+    t.bigint "location_id"
+    t.index ["location_id"], name: "index_parts_on_location_id"
     t.index ["material_id"], name: "index_parts_on_material_id"
   end
 
+  add_foreign_key "parts", "locations"
   add_foreign_key "parts", "materials"
 end
