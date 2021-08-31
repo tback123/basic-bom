@@ -5,6 +5,6 @@ module Response
     end
 
     def not_implemented()
-      json_response("Not implemented", 501)
+      json_response("Not implemented", :not_implemented)
     end
   end
