@@ -22,7 +22,8 @@ A part has the following fields that can be created, updated or queried.
     "order_qty": int,
     "design_eng_comments": string,
     "stock": int,
-    "type": ["component", "int_assembly", "ext_assembly", "installation"]
+    "bom_type": ["component", "assembly", "installation"],
+    "source": ["internal", "external"]
 }
 ```
 The database stores this model with some additional fields which are returned when a part model is queried.
@@ -45,7 +46,8 @@ Therefore the total returned model for a part is:
     "order_qty": int,
     "design_eng_comments": string,
     "stock_qty": int,
-    "bom_type": ["component", "int_assembly", "ext_assembly", "installation"],
+    "bom_type": ["component", "assembly", "installation"],
+    "source": ["internal", "external"]
     "created_at": string,
     "updated_at": string
 }
@@ -59,8 +61,12 @@ Note that this document is only for api version v1 and the paths described below
 
 > These examples assume the test developmemt server is run on the same local host as testing
 
-## Get all parts
+## Get a list of parts
+This call can be used to search either by a parameter or to get a list of all parts avaliable.
 
+If no parameters are given as part of the query string, a list of all parts will be returned
+
+If one or more parameters are given in the query string, a list of all parts matching all given parameters will be returend. If an unrecognised parameter is given, it will be ignored
 ### Request
 
 |TYPE|PATH|PARAMETRES|BODY|
