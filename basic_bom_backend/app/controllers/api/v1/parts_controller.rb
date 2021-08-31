@@ -3,17 +3,35 @@ module Api::V1
         include Response
         
         # GET /parts
+        # If no parameters corresponding to a part attribute, return list of all parts
+        # If there is one or more part_parameters, return list all parts matching search criteria
         def index
-            @parts = Part.all
-            json_response(@parts)
+            begin
+                if possible_part_params.empty?
+                    @parts = Part.all
+                    json_response(@parts)
+                else
+                    @parts = Part.where(possible_part_params)
+                    json_response(@parts)
+                end
+            rescue => e
+                json_response(e, :bad_request)
+            end
+            
         end
 
         # POST /parts
         def create
 
             begin
-                # Create and save a new part with the book paramaters
-                @part = Part.create(part_params)
+                # Get a new part with given part params
+                @part = Part.new(create_part_params)
+
+                # Find and add the material to it 
+                @part.material = Material.find(params[:material])
+
+                # Save the part to the db
+                @part.save
 
                 if @part.valid?
                     json_response(@part)
@@ -21,7 +39,7 @@ module Api::V1
                     json_response(@part.errors, 400)
                 end
             rescue => e
-                json_response(e, 400)
+                json_response(e, :bad_request)
             end
 
         end
@@ -32,7 +50,7 @@ module Api::V1
                 @part = Part.find(params[:id])
                 json_response(@part)
             rescue => e
-                json_response(e, 400)
+                json_response(e, :bad_request)
             end
         end
 
@@ -41,11 +59,17 @@ module Api::V1
         def update
             begin
                 @part = Part.find(params[:id])
-                @part.update(part_params)
+
+                # Update regular fields of the part
+                @part.update(possible_part_params)
+
+                # Update relational fields
+                params.has_key?(:material) ? @part.material = Material.find(params[:material]) :
+
                 @part.save()
                 json_response(@part)
             rescue => e
-                json_response(e, 400)
+                json_response(e, :bad_request)
             end
         end
 
@@ -56,13 +80,13 @@ module Api::V1
                 @part.destroy
                 json_response("status"=>"success")
             rescue => e
-                json_response(e, 400)
+                json_response(e, :bad_request)
             end 
             
         end
 
         private
-            def part_params
+            def possible_part_params
                 params.permit(:description, 
                             :drawing, 
                             :id, 
@@ -74,7 +98,21 @@ module Api::V1
                             :order_qty,
                             :design_eng_comments,
                             :stock_qty,
-                            :bom_type)
+                            :bom_type,
+                            :source)
+            end
+
+            def create_part_params
+                params.permit(:description, 
+                    :drawing, 
+                    :part_num,
+                    :revision,
+                    :qty_per,
+                    :order_qty,
+                    :design_eng_comments,
+                    :stock_qty,
+                    :bom_type,
+                    :source)
             end
 
     end

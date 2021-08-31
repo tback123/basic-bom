@@ -22,6 +22,7 @@ A part has the following fields that can be created, updated or queried.
     "order_qty": int,
     "design_eng_comments": string,
     "stock": int,
+    "material": int - material_id,
     "bom_type": ["component", "assembly", "installation"],
     "source": ["internal", "external"]
 }

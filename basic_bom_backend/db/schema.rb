@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_28_034750) do
+ActiveRecord::Schema.define(version: 2021_08_31_005929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "materials", force: :cascade do |t|
+    t.string "name"
+    t.text "properties"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "parts", force: :cascade do |t|
     t.string "description"
@@ -26,7 +33,11 @@ ActiveRecord::Schema.define(version: 2021_08_28_034750) do
     t.integer "order_qty"
     t.string "design_eng_comments"
     t.integer "stock_qty"
-    t.string "bom_type"
+    t.integer "bom_type"
+    t.integer "source"
+    t.bigint "material_id"
+    t.index ["material_id"], name: "index_parts_on_material_id"
   end
 
+  add_foreign_key "parts", "materials"
 end
