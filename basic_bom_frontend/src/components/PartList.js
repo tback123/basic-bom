@@ -1,5 +1,6 @@
 import { Box, Fab } from "@material-ui/core";
 import { useTheme } from "@material-ui/core";
+import { useEffect } from "react";
 import { DataGrid } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 import React from "react";
@@ -12,8 +13,17 @@ function PartList() {
     const theme = useTheme();
 
     const [isAddPartOpen, setIsAddPartOpen] = React.useState(false);
-    const [partsState, setPartsState] = React.useState(parts)
+    const [partsState, setPartsState] = React.useState([])
     const [counter, setCounter] = React.useState(0)
+
+    useEffect(() => {
+        fetch("http://localhost:3000/api/v1/parts")
+            .then(result => result.json())
+            .then(result => {
+                setPartsState(result)
+            })
+    });
+
 
     const handleOpenAdd = () => {
         setIsAddPartOpen(true);
