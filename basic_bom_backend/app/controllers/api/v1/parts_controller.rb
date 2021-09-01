@@ -30,6 +30,9 @@ module Api::V1
                 # Find and add the material to it 
                 @part.material = Material.find(params[:material])
 
+                # Find and add the location to it
+                @part.location = Location.find(params[:location])
+
                 # Save the part to the db
                 @part.save
 
@@ -65,6 +68,7 @@ module Api::V1
 
                 # Update relational fields
                 params.has_key?(:material) ? @part.material = Material.find(params[:material]) :
+                params.has_key?(:location) ? @part.location = Location.find(params[:location]) :
 
                 @part.save()
                 json_response(@part)
@@ -99,6 +103,8 @@ module Api::V1
                             :design_eng_comments,
                             :stock_qty,
                             :bom_type,
+                            :location,
+                            :material,
                             :source)
             end
 
