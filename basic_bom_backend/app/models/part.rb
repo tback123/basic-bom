@@ -5,7 +5,7 @@ class Part < ApplicationRecord
 
     validates   :description,  presence: true
     validates   :drawing,   :inclusion => { :in => [true, false] }
-    validates   :part_num,  presence: true
+    validates   :part_num,  presence: true, uniqueness: true
     validates   :revision,  presence: true
     validates   :qty_per,   presence: true
     validates   :order_qty, presence: true
