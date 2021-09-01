@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_31_033019) do
+ActiveRecord::Schema.define(version: 2021_09_01_045213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,10 +48,22 @@ ActiveRecord::Schema.define(version: 2021_08_31_033019) do
     t.integer "source"
     t.bigint "material_id"
     t.bigint "location_id"
+    t.bigint "supplier_id"
     t.index ["location_id"], name: "index_parts_on_location_id"
     t.index ["material_id"], name: "index_parts_on_material_id"
+    t.index ["supplier_id"], name: "index_parts_on_supplier_id"
+  end
+
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name"
+    t.text "contact_info"
+    t.text "address"
+    t.text "comments"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "parts", "locations"
   add_foreign_key "parts", "materials"
+  add_foreign_key "parts", "suppliers"
 end

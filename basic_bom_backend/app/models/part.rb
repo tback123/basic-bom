@@ -16,5 +16,6 @@ class Part < ApplicationRecord
 
     belongs_to :material, inverse_of: :parts
     belongs_to :location, inverse_of: :parts
+    belongs_to :supplier, inverse_of: :parts
 
 end
