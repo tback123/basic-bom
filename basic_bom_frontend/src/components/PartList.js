@@ -9,10 +9,10 @@ import parts from "../data/parts";
 import partParameters from "../data/partParameters";
 import axios from 'axios';
 
-function PartList() {
-    const axios = require('axios').default;
+function PartList(props) {
     const theme = useTheme();
-
+    const axios = require('axios')
+    axios.defaults.baseURL = 'http://localhost:3000/api/v1';
     const [loading, setLoading] = React.useState(false);
     const [isAddPartOpen, setIsAddPartOpen] = React.useState(false);
     const [partsState, setPartsState] = React.useState([])
@@ -23,7 +23,7 @@ function PartList() {
     // Resource: https://dmitripavlutin.com/react-useeffect-infinite-loop/
 
     const fetchPartData = () => {
-        const getParts = axios.get('/api/v1/parts');
+        const getParts = axios.get('/parts');
         axios.all([getParts]).then(
             axios.spread((partsResponse) => {
                 return (
