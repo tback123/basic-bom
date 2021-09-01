@@ -31,6 +31,16 @@ class Api::V1::LocationsController < ApplicationController
         
     end
 
+    def parts
+        begin
+            @location = Location.find(params[:location_id])
+            @parts = @location.parts
+            json_response(@parts)
+        rescue => e
+            json_response(e, :bad_request)
+        end
+    end
+
     private
         def possible_location_params
             params.permit(:name,

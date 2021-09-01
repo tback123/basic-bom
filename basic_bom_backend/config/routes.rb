@@ -14,7 +14,9 @@ Rails.application.routes.draw do
       end
 
       # Location routes
-      resources :locations
+      resources :locations do
+        get '/parts', to: 'locations#parts'
+      end
 
     end
   end
