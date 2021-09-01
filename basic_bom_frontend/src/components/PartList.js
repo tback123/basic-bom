@@ -16,13 +16,16 @@ function PartList() {
     const [partsState, setPartsState] = React.useState([])
     const [counter, setCounter] = React.useState(0)
 
-    useEffect(() => {
+    // Fetch the parts from the api with partsState as a dependency of useEffect
+    // This will mean the part isn't infinantly updated
+    // Resource: https://dmitripavlutin.com/react-useeffect-infinite-loop/
+    useEffect((() => {
         fetch("http://localhost:3000/api/v1/parts")
             .then(result => result.json())
             .then(result => {
                 setPartsState(result)
             })
-    });
+    }), partsState);
 
 
     const handleOpenAdd = () => {
