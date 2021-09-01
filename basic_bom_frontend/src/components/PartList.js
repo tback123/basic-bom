@@ -5,13 +5,15 @@ import { DataGrid } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 import React from "react";
 import AddPart from "./AddPart"
-
 import parts from "../data/parts";
 import partParameters from "../data/partParameters";
+import axios from 'axios';
 
 function PartList() {
+    const axios = require('axios').default;
     const theme = useTheme();
 
+    const [loading, setLoading] = React.useState(false);
     const [isAddPartOpen, setIsAddPartOpen] = React.useState(false);
     const [partsState, setPartsState] = React.useState([])
     const [counter, setCounter] = React.useState(0)
@@ -19,14 +21,19 @@ function PartList() {
     // Fetch the parts from the api with partsState as a dependency of useEffect
     // This will mean the part isn't infinantly updated
     // Resource: https://dmitripavlutin.com/react-useeffect-infinite-loop/
-    useEffect((() => {
-        fetch("http://localhost:3000/api/v1/parts")
-            .then(result => result.json())
-            .then(result => {
-                setPartsState(result)
-            })
-    }), partsState);
 
+    const fetchPartData = () => {
+        const getParts = axios.get('/api/v1/parts');
+        axios.all([getParts]).then(
+            axios.spread((partsResponse) => {
+                return (
+                    partsResponse.data.parts
+                );
+            })
+        );
+    };
+
+    useEffect((() => { fetchPartData() }), partsState);
 
     const handleOpenAdd = () => {
         setIsAddPartOpen(true);
