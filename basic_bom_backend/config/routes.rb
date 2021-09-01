@@ -18,6 +18,11 @@ Rails.application.routes.draw do
         get '/parts', to: 'locations#parts'
       end
 
+      # Supplier routes
+      resources :suppliers do
+        get '/parts', to: 'suppliers#parts'
+      end
+
     end
   end
 

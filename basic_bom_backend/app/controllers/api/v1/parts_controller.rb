@@ -27,11 +27,14 @@ module Api::V1
                 # Get a new part with given part params
                 @part = Part.new(create_part_params)
 
-                # Find and add the material to it 
+                # Find and add the material to part 
                 @part.material = Material.find(params[:material])
 
-                # Find and add the location to it
+                # Find and add the location to part
                 @part.location = Location.find(params[:location])
+
+                # Find and add supplier to part
+                @part.supplier = Supplier.find(params[:supplier])
 
                 # Save the part to the db
                 @part.save
@@ -69,6 +72,7 @@ module Api::V1
                 # Update relational fields
                 params.has_key?(:material) ? @part.material = Material.find(params[:material]) :
                 params.has_key?(:location) ? @part.location = Location.find(params[:location]) :
+                params.has_key?(:supplier) ? @part.supplier = Supplier.find(params[:supplier]) :
 
                 @part.save()
                 json_response(@part)
@@ -105,6 +109,7 @@ module Api::V1
                             :bom_type,
                             :location,
                             :material,
+                            :supplier,
                             :source)
             end
 

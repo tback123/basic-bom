@@ -44,20 +44,18 @@ class Api::V1::SuppliersController < ApplicationController
     private
         def possible_supplier_params
             params.permit(:name,
-                        :building,
-                        :room,
-                        :area,
-                        :specifics,
+                        :contact_info,
+                        :address,
                         :comments,
-                        :id, 
+                        :id,
                         :created_at, 
                         :updated_at)
         end
 
         def create_supplier_params
-            params.permit(:name, :building, :room,
-                :area,
-                :specifics,
-                :comments,)
+            params.permit(:name,
+                :contact_info,
+                :address,
+                :comments)
         end
 end
