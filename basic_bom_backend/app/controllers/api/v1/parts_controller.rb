@@ -36,10 +36,13 @@ module Api::V1
                 # Find and add supplier to part
                 @part.supplier = Supplier.find(params[:supplier])
 
-                # Save the part to the db
-                @part.save
+                # Find and add parent to part
+                # @part.parents << Part.find(params[:parent])
 
                 if @part.valid?
+                    # Save the part to the db
+                    @part.save
+
                     json_response(@part)
                 else
                     json_response(@part.errors, 400)
@@ -110,6 +113,8 @@ module Api::V1
                             :location,
                             :material,
                             :supplier,
+                            :parent,
+                            :child,
                             :source)
             end
 

@@ -5,7 +5,7 @@ class Part < ApplicationRecord
 
     validates   :description,  presence: true
     validates   :drawing,   :inclusion => { :in => [true, false] }
-    validates   :part_num,  presence: true, uniqueness: true
+    validates   :part_num,  presence: true#, uniqueness: true
     validates   :revision,  presence: true
     validates   :qty_per,   presence: true
     validates   :order_qty, presence: true
@@ -18,4 +18,10 @@ class Part < ApplicationRecord
     belongs_to :location, inverse_of: :parts
     belongs_to :supplier, inverse_of: :parts
 
+    has_many :child_relations, foreign_key: :child_id, class_name: "PartRelation"
+    has_many :children, through: :child_relations
+
+    has_many :parent_relations, foreign_key: :parent_id, class_name: "PartRelation"
+    has_many :parents, through: :parent_relations
+    
 end
