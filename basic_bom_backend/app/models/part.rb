@@ -18,10 +18,11 @@ class Part < ApplicationRecord
     belongs_to :location, inverse_of: :parts
     belongs_to :supplier, inverse_of: :parts
 
-    has_many :child_relations, foreign_key: :child_id, class_name: "PartRelation"
+    # TODO: Ask someone why the foreign keys being in this order make it work in the expected way
+    has_many :child_relations, foreign_key: :parent_id, class_name: "PartRelation"
     has_many :children, through: :child_relations
 
-    has_many :parent_relations, foreign_key: :parent_id, class_name: "PartRelation"
+    has_many :parent_relations, foreign_key: :child_id, class_name: "PartRelation"
     has_many :parents, through: :parent_relations
     
 end
