@@ -15,7 +15,7 @@ module Api::V1
                     json_response(@parts)
                 end
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
             
         end
@@ -47,10 +47,10 @@ module Api::V1
                     @part.save
                     json_response(@part)
                 else
-                    json_response(@part.errors, 400)
+                    json_response(@part.errors, :bad_request)
                 end
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
 
         end
@@ -61,7 +61,7 @@ module Api::V1
                 @part = Part.find(params[:id])
                 json_response(@part)
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
@@ -82,7 +82,7 @@ module Api::V1
                 @part.save()
                 json_response(@part)
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
@@ -93,7 +93,7 @@ module Api::V1
                 @part.destroy
                 json_response("status"=>"success")
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end 
             
         end
@@ -104,7 +104,7 @@ module Api::V1
                 @children = Part.find(params[:part_id]).children
                 json_response(@children)
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
@@ -120,7 +120,7 @@ module Api::V1
                 @children = Part.find(params[:part_id]).children
                 json_response(@children)
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
@@ -140,7 +140,7 @@ module Api::V1
                 json_response(@children)
 
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
@@ -150,7 +150,7 @@ module Api::V1
                 @parents = Part.find(params[:part_id]).parents
                 json_response(@parents)
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
@@ -166,7 +166,7 @@ module Api::V1
                 @parents = Part.find(params[:part_id]).parents
                 json_response(@parents)
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
@@ -186,7 +186,7 @@ module Api::V1
                 json_response(@parents)
 
             rescue => e
-                json_response(e, :bad_request)
+                json_string_error_response(e)
             end
         end
 
