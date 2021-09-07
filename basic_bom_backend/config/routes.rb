@@ -6,7 +6,16 @@ Rails.application.routes.draw do
     namespace :v1 do
       
       # Parts routes
-      resources :parts
+      resources :parts do
+        get '/children', to: 'parts#children'
+        put '/children', to: 'parts#children_add'
+        delete '/children', to: 'parts#children_delete'
+
+        get '/parents', to: 'parts#parents'
+        put '/parents', to: 'parts#parents_add'
+        delete '/parents', to: 'parts#parents_delete'
+
+      end
 
       # Material routes
       resources :materials do

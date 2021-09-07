@@ -35,9 +35,12 @@ module Api::V1
 
                 # Find and add supplier to part
                 @part.supplier = Supplier.find(params[:supplier])
-
-                # Find and add parent to part
-                # @part.parents << Part.find(params[:parent])
+                
+                # Every part except installations must have at least one parent at creation
+                unless @part.installation?
+                    @parent = Part.find(params[:parent])
+                    @relation = PartRelation.create(parent: @parent, child: @part)
+                end
 
                 if @part.valid?
                     # Save the part to the db
@@ -94,6 +97,98 @@ module Api::V1
                 json_response(e, :bad_request)
             end 
             
+        end
+
+        # GET /parts/:part_id/children
+        def children
+            begin
+                @children = Part.find(params[:part_id]).children
+                json_response(@children)
+            rescue => e
+                json_response(e, :bad_request)
+            end
+        end
+
+        # PUT /parts/:part_id/children
+        # Requires 1 param :child_id to add
+        def children_add
+            begin
+                @parent = Part.find(params[:part_id])
+                @child = Part.find(params[:child_id])
+                PartRelation.create(parent: @parent, child: @child)
+
+                # Once added the new child, return all children of the part
+                @children = Part.find(params[:part_id]).children
+                json_response(@children)
+            rescue => e
+                json_response(e, :bad_request)
+            end
+        end
+
+        # DELETE /parts/:part_id/children
+        # Requires 1 param :child_id to add
+        def children_delete
+            begin
+                @relation = PartRelation.where(parent_id: params[:part_id], child: params[:child_id]).first
+                
+                # If the relation exists, destroy it
+                unless @relation.nil? 
+                    @relation.destroy
+                end
+
+                # Once delete the child, return all children of the part
+                @children = Part.find(params[:part_id]).children
+                json_response(@children)
+
+            rescue => e
+                json_response(e, :bad_request)
+            end
+        end
+
+        # GET /parts/:part_id/parents
+        def parents
+            begin
+                @parents = Part.find(params[:part_id]).parents
+                json_response(@parents)
+            rescue => e
+                json_response(e, :bad_request)
+            end
+        end
+
+        # PUT /parts/:part_id/parents
+        # Requires 1 param :parent_id to add
+        def parents_add
+            begin
+                @parent = Part.find(params[:parent_id])
+                @child = Part.find(params[:part_id])
+                PartRelation.create(parent: @parent, child: @child)
+
+                # Once added the new parent, return all parents of the part
+                @parents = Part.find(params[:part_id]).parents
+                json_response(@parents)
+            rescue => e
+                json_response(e, :bad_request)
+            end
+        end
+
+        # DELETE /parts/:part_id/parents
+        # Requires 1 param :parent_id to add
+        def parents_delete
+            begin
+                @relation = PartRelation.where(parent_id: params[:parent_id], child: params[:part_id]).first
+                
+                # If the relation exists, destroy it
+                unless @relation.nil? 
+                    @relation.destroy
+                end
+
+                # Once delete the child, return all children of the part
+                @parents = Part.find(params[:part_id]).parents
+                json_response(@parents)
+
+            rescue => e
+                json_response(e, :bad_request)
+            end
         end
 
         private
