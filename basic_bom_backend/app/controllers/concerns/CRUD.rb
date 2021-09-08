@@ -13,7 +13,7 @@ module CRUD
                 json_response(@items)
             end
         rescue => e
-            json_response(e, :bad_request)
+            json_string_error_responsee(e)
         end
     end
 
@@ -29,7 +29,7 @@ module CRUD
                 json_response(@item.errors, :bad_request)
             end
         rescue => e
-            json_response(e, :bad_request)
+            json_string_error_responsee(e)
         end
     end
 
@@ -39,7 +39,7 @@ module CRUD
             @item = model.find(id)
             json_response(@item)
         rescue => e
-            json_response(e, :bad_request)
+            json_string_error_responsee(e)
         end
     end
 
@@ -56,7 +56,7 @@ module CRUD
 
             json_response(@item)
         rescue => e
-            json_response(e, :bad_request)
+            json_string_error_responsee(e)
         end
     end
 
@@ -66,7 +66,7 @@ module CRUD
             @item.destroy
             json_response("status"=>"success")
         rescue => e
-            json_response(e, :bad_request)
+            json_string_error_responsee(e)
         end 
     end
   end
