@@ -3,97 +3,107 @@ export default
     {
         "field": "id",
         "headerName": "ID",
-        "editable": true
+        "hide": true
     },
     {
-        "field": "bom_tree",
+        "field": "bom_type",
         "headerName": "BOM Tree",
-        "width": 150,
-        "editable": true
+        "minWidth": 100,
+        "width": 150
     },
     {
-        "field": "dept",
-        "headerName": "Department",
-        "width": 150,
-        "editable": true
-    },
-    {
-        "field": "subsystem",
-        "headerName": "Sub-System",
-        "width": 110,
-        "editable": true
-    },
-    {
-        "field": "material",
+        "field": "material_id",
         "headerName": "Material",
-        "width": 110,
-        "editable": true
+        "minWidth": 50,
+        "width": 130,
+        "type": "number",
     },
     {
-        "field": "has_drawing",
+        "field": "drawing",
         "headerName": "DWG",
-        "width": 110,
-        "editable": true
+        "type": "boolean",
+        "minWidth": 50,
+        "width": 110
     },
     {
         "field": "part_num",
-        "headerName": "Part Number",
-        "width": 110,
-        "editable": true
+        "headerName": "Part NUM",
+        "minWidth": 120,
+        "width": 140
     },
     {
         "field": "revision",
         "headerName": "REV",
-        "width": 110,
-        "editable": true
+        "type": "number",
+        "minWidth": 50,
+        "width": 110
+        
     },
     {
         "field": "description",
-        "headerName": "Part Description",
-        "width": 110,
-        "editable": true
+        "headerName": "Description",
+        "minWidth": 200,
+        "editable": true,
+        "flex": 0.5
     },
     {
         "field": "qty_per",
-        "headerName": "Quantity Per",
-        "width": 110,
-        "editable": true
+        "headerName": "QTY Per",
+        "type": "number",
+        "minWidth": 50,
+        "width": 130
     },
     {
-        "field": "type",
-        "headerName": "Type",
-        "width": 110,
-        "editable": true
+        "field": "source",
+        "headerName": "Source",
+        "minWidth": 50,
+        "width": 130
     },
     {
-        "field": "supplier",
-        "headerName": "Supplier",
-        "width": 110,
-        "editable": true
+        "field": "supplier_id",
+        "headerName": "Supplier ID",
+        "type": "number",
+        "minWidth": 50,
+        "width": 150
     },
     {
-        "field": "qty_to_order",
-        "headerName": "QTY To Order",
-        "width": 110,
-        "editable": true
+        "field": "order_qty",
+        "headerName": "Order QTY",
+        "type": "number",
+        "minWidth": 50,
+        "width": 150
     },
     {
-        "field": "comments",
+        "field": "design_eng_comments",
         "headerName": "Comments",
-        "width": 110,
-        "editable": true
+        "minWidth": 200,
+        "editable": true,
+        "flex": 0.5
     },
     {
-        "field": "design_engineer",
-        "headerName": "Design Engineer",
-        "width": 110,
-        "editable": true
+        "field": "location_id",
+        "headerName": "Location ID",
+        "type": "number",
+        "minWidth": 50,
+        "width": 150
     },
     {
-        "field": "status",
-        "headerName": "Status",
-        "width": 110,
-        "editable": true
-    }
-
+        "field": "stock_qty",
+        "headerName": "Stock QTY",
+        "type": "number",
+        "minWidth": 50,
+        "width": 150
+    },
+    // {
+    //     "field": "created_at",
+    //     "headerName": "Created At",
+    //     "minWidth": 110,
+    //     "type": "dateTime",
+    // },
+    // {
+    //     "field": "updated_at",
+    //     "headerName": "Last Update",
+    //     "minWidth": 110,
+    //     "type": "dateTime",
+    // }
 ]
