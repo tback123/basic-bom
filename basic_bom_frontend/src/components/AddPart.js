@@ -1,11 +1,8 @@
 import { Button, Paper, Typography, Box, useTheme } from "@material-ui/core";
 import { TextField, ButtonGroup } from "@material-ui/core";
-import { Dialog, DialogTitle, FormControl, Checkbox } from "@material-ui/core";
+import { Dialog, DialogTitle, FormControl, Checkbox, FormLabel, FormControlLabel } from "@material-ui/core";
 
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
-
-import FormInputDropdown from "./form/FormInputDropdown"
-import FormInputRadio from "./form/FormInputRadio"
 
 import { useState } from "react";
 
@@ -47,9 +44,8 @@ function AddPart(props) {
     return (
         <Dialog onClose={handleClose} open={open}>
             <Box display="flex" justifyContent="center" flexDirection="column" style={{ margin: theme.spacing(1) }}>
-
-                <form onSubmit={formik.handleSubmit}>
-                    <div>
+                <Form>
+                    {/* <div>
                         <TextField
                             variant="outlined"
                             id="description"
@@ -59,25 +55,24 @@ function AddPart(props) {
                             onChange={formik.handleChange}
                             error={formik.touched.email && Boolean(formik.errors.email)}
                             helperText={formik.touched.email && formik.errors.email} />
-                    </div>
-                    <div>
-                        <Typography>Has this part got a drawing?</Typography>
+                    </div> */}
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">Has this part got a drawing?</FormLabel>
                         <ToggleButtonGroup 
-                            id="has_drawing"
+                            // id="has_drawing"
+                            // value={formik.values.has_drawing}
+                            // onChange={formik.handleChange}
+                            // aria-label="text formatting"
+                            name="has_drawing"
                             value={formik.values.has_drawing}
-                            onChange={formik.handleChange}
-                            aria-label="text formatting">
-                            <ToggleButton value="true" aria-label="yes">
-                                Yes
-                            </ToggleButton>
-                            <ToggleButton value="false" aria-label="no">
-                                No
-                            </ToggleButton>
-
+                            onChange={ (val) => {formik.setFieldValue("has_drawing", val)}}
+                            >
+                            <FormControlLabel value="true" control={<ToggleButton/>} label="yes"/>
+                            <FormControlLabel value="false" control={<ToggleButton/>} label="no"/>
                         </ToggleButtonGroup>
 
 
-                    </div>
+                    </FormControl>
                     {/* <div>
                         <Typography>Type</Typography>
                         <ButtonGroup  color="primary">
@@ -116,7 +111,7 @@ function AddPart(props) {
                     </div>
 
 
-                </form>
+                </Form>
 
             </Box>
 
