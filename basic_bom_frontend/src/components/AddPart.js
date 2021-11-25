@@ -1,23 +1,18 @@
 import { Button, Paper, Typography, Box, useTheme } from "@material-ui/core";
-import { TextField, ButtonGroup } from "@material-ui/core";
+import { TextField, FormGroup, ButtonGroup } from "@material-ui/core";
 import { Dialog, DialogTitle, FormControl, Checkbox, FormLabel, FormControlLabel } from "@material-ui/core";
-
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
 
 import { useState } from "react";
 
-import { useFormik, Form } from 'formik';
-import * as yup from 'yup'
-
-const validationSchema = yup.object({
-    description: yup
-        .string('Enter a description of the part')
-        .required('A description is required'),
-    has_drawing: yup.boolean()
-});
 
 function AddPart(props) {
     const theme = useTheme();
+    const [part, setPart] = useState({
+        description: "",
+        part_num: "",
+        bom_type: "component"
+    })
 
     const { addPart, onClose, open } = props;
 
@@ -25,94 +20,45 @@ function AddPart(props) {
         onClose();
     };
 
-    const formik = useFormik({
-        initialValues: {
-            description: '',
-            has_drawing: 'true'
-        },
-        validationSchema: validationSchema,
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
-            console.log(values)
-        },
-        onReset: (values) => {
-            alert(JSON.stringify(values, null, 2));
-        }
-
-    });
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <Box display="flex" justifyContent="center" flexDirection="column" style={{ margin: theme.spacing(1) }}>
-                <Form>
-                    {/* <div>
-                        <TextField
-                            variant="outlined"
-                            id="description"
-                            name="description"
-                            label="Description"
-                            value={formik.values.description}
-                            onChange={formik.handleChange}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email} />
-                    </div> */}
-                    <FormControl component="fieldset">
-                        <FormLabel component="legend">Has this part got a drawing?</FormLabel>
-                        <ToggleButtonGroup 
-                            // id="has_drawing"
-                            // value={formik.values.has_drawing}
-                            // onChange={formik.handleChange}
-                            // aria-label="text formatting"
-                            name="has_drawing"
-                            value={formik.values.has_drawing}
-                            onChange={ (val) => {formik.setFieldValue("has_drawing", val)}}
-                            >
-                            <FormControlLabel value="true" control={<ToggleButton/>} label="yes"/>
-                            <FormControlLabel value="false" control={<ToggleButton/>} label="no"/>
-                        </ToggleButtonGroup>
-
-
-                    </FormControl>
-                    {/* <div>
-                        <Typography>Type</Typography>
-                        <ButtonGroup  color="primary">
-                            <Button variant="contained">Component</Button>
-                            <Button variant="outlined">Assembly</Button>
-                            <Button variant="outlined">Installation</Button>
-                        </ButtonGroup>
-                    </div>
-                    <div>
-                        <Typography>Source</Typography>
-                        <ButtonGroup  color="primary">
-                            <Button variant="contained">Internal</Button>
-                            <Button variant="outlined">External</Button>
-                        </ButtonGroup>
-                    </div>
-                    <div>
-                        <TextField variant="outlined" id="part_num" label="part_num" />
-                    </div>
-                    <div>
-                        <TextField variant="outlined" id="revision" label="revision" />
-                    </div>
-                    <div>
-                        <TextField variant="outlined" id="qty_per" label="qty_per" />
-                    </div>
-                    <div>
-                        <TextField variant="outlined" id="qty_to_order" label="qty_to_order" />
-                    </div>
-                    <div>
-                        <Typography>Supplier Placeholder</Typography>
-                    </div>
-                    <div>
-                        <TextField variant="outlined" id="comments" label="comments" />
-                    </div> */}
-                    <div>
-                        <Button variant="contained" type="submit">Submit</Button>
-                    </div>
-
-
-                </Form>
-
+            <Typography component="h1" variant="h5">
+                Title
+            </Typography>
+            <Box component="form" noValidate display="flex" justifyContent="center" flexDirection="column" style={{ margin: theme.spacing(1) }}>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="description"
+                    label="Part Description"
+                    name="description"
+                    placeholder="M12-5 T-Splitter Connector"
+                    autoFocus
+                    value={part['description']}
+                    onChange={(e) => setPart({ ...part, "description": e.target.value })}
+                />
+                {/* <ButtonGroup>
+                    <Button color='primary' variant={{part['bom_type'] == "component" ? 'contained' : ''}}> Hello </Button>
+                    <Button> Hello </Button>
+                </ButtonGroup> */}
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="part_num"
+                    label="Part Number"
+                    placeholder="SR8-ES-0001"
+                    name="part_num"
+                    autoFocus
+                    value={part['part_num']}
+                    onChange={(e) => setPart({ ...part, "part_num": e.target.value })}
+                />
+                <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                />
             </Box>
 
         </Dialog >
