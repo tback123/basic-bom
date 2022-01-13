@@ -12,13 +12,18 @@ import axios from 'axios';
 function PartList(props) {
     const theme = useTheme();
 
-    const axios = require('axios').default
-    axios.defaults.baseURL = 'http://localhost:3000/api/v1';
+    
+    const backend = axios.create({
+        baseURL: 'http://localhost:3001/api/v1',
+        timeout: 1000,
+        headers: {"Access-Control-Allow-Origin": "*"} // allow responses from any origin
+      });
+
 
     const [loading, setLoading] = React.useState(false);
     const [isAddPartOpen, setIsAddPartOpen] = React.useState(false);
     const [partsState, setPartsState] = React.useState([])
-    const [counter, setCounter] = React.useState(0)
+    const [lastResponse, setLastResponse] = React.useState({});
 
     // Fetch the parts from the api with partsState as a dependency of useEffect
     // This will mean the part isn't infinantly updated
@@ -26,11 +31,15 @@ function PartList(props) {
 
     const fetchPartData = () => {
 
-        axios.get('/parts')
+        backend.get('/parts')
             .then(function (response){
                 // Handles Successful Request
-                console.log(response)
-                setPartsState(response.data)
+                // console.log(response)
+                response.data.forEach(part => {
+                    console.log("adding part")
+                    addPart(part)
+                });
+                setLastResponse(response);
             })
             .catch(function (error) {
                 // Handles Error
@@ -41,11 +50,13 @@ function PartList(props) {
                 // Always Executed
             })
 
+            console.log(partsState)
+
     };
 
     // Fetch part data every time the component loads
     // Use the length of the partState as the dependant variable
-    useEffect((() => { fetchPartData() }), [partsState.length]);
+    useEffect((() => { fetchPartData()}), [lastResponse.dictionary]);
 
     const handleOpenAdd = () => {
         setIsAddPartOpen(true);
@@ -56,14 +67,9 @@ function PartList(props) {
     };
 
     const addPart = (val) => {
-        setPartsState(partsState.concat({
-            id: 100 - counter,
-            bom_tree: "test",
-            dept: "Test",
-            subsystem: "test"
 
-        }))
-        setCounter(counter+1)
+        setPartsState(prevPartsState => [...prevPartsState, val]);
+
     }
 
     return (<>
