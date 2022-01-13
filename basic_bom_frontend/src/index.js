@@ -8,7 +8,7 @@ import axios from 'axios';
 // Axios Defaults -- Means that any Axios request will have these parameters
 // Taken from: https://stackoverflow.com/questions/51794553/how-do-i-create-configuration-for-axios-for-default-request-headers-in-every-htt
 axios.defaults.baseURL = 'http://localhost:3001/api/v1';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 // Request Defaults

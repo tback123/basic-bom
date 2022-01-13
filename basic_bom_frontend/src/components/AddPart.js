@@ -1,9 +1,11 @@
 import { Button, Typography, Box, useTheme } from "@material-ui/core";
 import { TextField, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
 import { Dialog } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import axios from "axios";
+import qs from 'qs'
 
 import { useState } from "react";
-
 
 function AddPart(props) {
     const theme = useTheme();
@@ -13,11 +15,14 @@ function AddPart(props) {
         bom_type: "component",
         source: "internal",
         qty_per: "",
-        qty_to_order: "",
+        order_qty: "",
         design_eng_comments: "",
-        has_drawing: true,
-        material_id: 1,
-        supplier_id: 1,
+        drawing: true,
+        material: 1,
+        supplier: 1,
+        location: 1,
+        revision: 1,
+        stock_qty: 0
     })
 
     const { addPart, onClose, open } = props;
@@ -25,6 +30,17 @@ function AddPart(props) {
     const handleClose = () => {
         onClose();
     };
+
+    const onSubmit = () => {
+        console.log(part);
+        axios.post('/parts', qs.stringify(part))
+            .then((response) => {
+                // console.log(response.data);
+            }).catch((error)=> {
+                console.log(error);
+            })
+        handleClose();
+    }
 
 
     const suppliers = [
@@ -90,8 +106,8 @@ function AddPart(props) {
                     variant='outlined'
                     select
                     label="Select"
-                    value={part['material_id']}
-                    onChange={(e) => { setPart({ ...part, material_id: e.target.value }) }}
+                    value={part['material']}
+                    onChange={(e) => { setPart({ ...part, material: e.target.value }) }}
                 >
                     {materials.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -118,8 +134,8 @@ function AddPart(props) {
                     variant='outlined'
                     select
                     label="Select"
-                    value={part['supplier_id']}
-                    onChange={(e) => { setPart({ ...part, supplier_id: e.target.value }) }}
+                    value={part['supplier']}
+                    onChange={(e) => { setPart({ ...part, supplier: e.target.value }) }}
                 >
                     {suppliers.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -130,8 +146,8 @@ function AddPart(props) {
 
                 <Typography component="h2"> Does this part have a Sunswift Engineering Drawing? </Typography>
                 <ButtonGroup>
-                    <Button color='primary' variant={part['has_drawing'] === true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "has_drawing": true }) }}> Yes </Button>
-                    <Button color='primary' variant={part['has_drawing'] === false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "has_drawing": false }) }}> No </Button>
+                    <Button color='primary' variant={part['drawing'] === true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": true }) }}> Yes </Button>
+                    <Button color='primary' variant={part['drawing'] === false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": false }) }}> No </Button>
                 </ButtonGroup>
 
                 <TextField
@@ -167,12 +183,12 @@ function AddPart(props) {
                         variant='outlined'
                         margin="normal"
                         required
-                        id="qty_to_order"
+                        id="to_order"
                         label="Quantity To Order"
                         name="qty_to_order"
                         autoFocus
-                        value={part['qty_to_order']}
-                        onChange={(e) => setPart({ ...part, "qty_to_order": e.target.value })}
+                        value={part['order_qty']}
+                        onChange={(e) => setPart({ ...part, "order_qty": e.target.value })}
                     />
 
                 </Grid>
@@ -191,7 +207,10 @@ function AddPart(props) {
                     onChange={(e) => setPart({ ...part, "design_eng_comments": e.target.value })}
                 />
             </Box>
-
+            
+            <Button color="primary" variant="contained" onClick={onSubmit}>
+                Submit
+            </Button>
         </Dialog >
     );
 }
