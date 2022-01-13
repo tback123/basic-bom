@@ -5,20 +5,11 @@ import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 import React from "react";
 import AddPart from "./AddPart"
-// import parts from "../data/parts";
 import partParameters from "../data/partParameters";
 import axios from 'axios';
 
 function PartList(props) {
     const theme = useTheme();
-
-    
-    const backend = axios.create({
-        baseURL: 'http://localhost:3001/api/v1',
-        timeout: 1000,
-        headers: {"Access-Control-Allow-Origin": "*"} // allow responses from any origin
-      });
-
 
     const [loading, setLoading] = React.useState(false);
     const [isAddPartOpen, setIsAddPartOpen] = React.useState(false);
@@ -31,7 +22,7 @@ function PartList(props) {
 
     const fetchPartData = () => {
 
-        backend.get('/parts')
+        axios.get('/parts')
             .then(function (response){
                 // Handles Successful Request
                 // console.log(response)
