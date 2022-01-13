@@ -1,7 +1,6 @@
-import { Button, Paper, Typography, Box, useTheme } from "@material-ui/core";
-import { TextField, FormGroup, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
-import { Dialog, DialogTitle, FormControl, Checkbox, FormLabel, FormControlLabel } from "@material-ui/core";
-import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
+import { Button, Typography, Box, useTheme } from "@material-ui/core";
+import { TextField, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
+import { Dialog } from "@material-ui/core";
 
 import { useState } from "react";
 
@@ -103,15 +102,15 @@ function AddPart(props) {
 
                 <Typography component="h2"> BOM Type </Typography>
                 <ButtonGroup>
-                    <Button color='primary' variant={part['bom_type'] == "component" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "component" }) }}> component </Button>
-                    <Button color='primary' variant={part['bom_type'] == "assembly" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "assembly" }) }}> assembly </Button>
-                    <Button color='primary' variant={part['bom_type'] == "installation" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "installation" }) }}> installation </Button>
+                    <Button color='primary' variant={part['bom_type'] === "component" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "component" }) }}> component </Button>
+                    <Button color='primary' variant={part['bom_type'] === "assembly" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "assembly" }) }}> assembly </Button>
+                    <Button color='primary' variant={part['bom_type'] === "installation" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "installation" }) }}> installation </Button>
                 </ButtonGroup>
 
                 <Typography component="h2"> Source </Typography>
                 <ButtonGroup>
-                    <Button color='primary' variant={part['source'] == "internal" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "internal" }) }}> internal </Button>
-                    <Button color='primary' variant={part['source'] == "external" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "external" }) }}> external </Button>
+                    <Button color='primary' variant={part['source'] === "internal" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "internal" }) }}> internal </Button>
+                    <Button color='primary' variant={part['source'] === "external" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "external" }) }}> external </Button>
                 </ButtonGroup>
 
                 <Typography component="h2"> Supplier </Typography>
@@ -131,8 +130,8 @@ function AddPart(props) {
 
                 <Typography component="h2"> Does this part have a Sunswift Engineering Drawing? </Typography>
                 <ButtonGroup>
-                    <Button color='primary' variant={part['has_drawing'] == true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "has_drawing": true }) }}> Yes </Button>
-                    <Button color='primary' variant={part['has_drawing'] == false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "has_drawing": false }) }}> No </Button>
+                    <Button color='primary' variant={part['has_drawing'] === true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "has_drawing": true }) }}> Yes </Button>
+                    <Button color='primary' variant={part['has_drawing'] === false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "has_drawing": false }) }}> No </Button>
                 </ButtonGroup>
 
                 <TextField
