@@ -22,6 +22,8 @@ function PartList(props) {
 
     const fetchPartData = () => {
 
+        setPartsState([]);
+
         axios.get('/parts')
             .then(function (response){
                 // Handles Successful Request
@@ -55,6 +57,7 @@ function PartList(props) {
 
     const handleCloseAdd = () => {
         setIsAddPartOpen(false);
+        fetchPartData();
     };
 
     const addPart = (val) => {

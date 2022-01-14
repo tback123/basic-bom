@@ -1,7 +1,7 @@
-import { Button, Typography, Box, useTheme } from "@material-ui/core";
+import { Button, Typography, Box, useTheme, Snackbar } from "@material-ui/core";
 import { TextField, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
 import { Dialog } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import axios from "axios";
 import qs from 'qs'
 
@@ -9,7 +9,10 @@ import { useState } from "react";
 
 function AddPart(props) {
     const theme = useTheme();
-    const [part, setPart] = useState({
+    const [isError, setIsError] = useState(false);
+    const [error, setError] = useState();
+
+    const defaultPart = {
         description: "",
         part_num: "",
         bom_type: "component",
@@ -23,24 +26,33 @@ function AddPart(props) {
         location: 1,
         revision: 1,
         stock_qty: 0
-    })
+    }
 
+    // Default Part State
+    const [part, setPart] = useState(defaultPart);
+    // Import Props
     const { addPart, onClose, open } = props;
 
+    // Handle close
     const handleClose = () => {
         onClose();
     };
 
+    // Handle the submit button
     const onSubmit = () => {
-        console.log(part);
+        // Post the part to the backend
         axios.post('/parts', qs.stringify(part))
             .then((response) => {
-                // console.log(response.data);
+                // If successful, close the dialog
+                handleClose();
             }).catch((error)=> {
-                console.log(error);
+                // If unsuccessful, set error true, and store the error
+                console.log(error.response.data);
+                setIsError(true);
+                setError(error.response.data['error']);
             })
-        handleClose();
     }
+
 
 
     const suppliers = [
@@ -83,10 +95,30 @@ function AddPart(props) {
 
     return (
         <Dialog onClose={handleClose} open={open}>
+            {/* This is a place for the alerts to be shown */ }
+            <Snackbar 
+                open={isError}
+                autoHideDuration={6000} 
+                onClose={() => {setIsError(false)}}>
+                <Alert 
+                    severity="error" 
+                    onClose={() => {setIsError(false)}}>
+                    <AlertTitle>Error</AlertTitle>
+                    The part was not successfully added 
+                    <br/><br/>
+                    {error}
+                </Alert>
+            </Snackbar>
+
+            {/* Header */}
             <Typography component="h1" variant="h5">
-                Title
+                Add a part!
             </Typography>
+
+            {/* Form Wrapper */}
             <Box component="form" noValidate display="flex" justifyContent="center" flexDirection="column" style={{ margin: theme.spacing(1) }}>
+                
+                {/* Description */}
                 <TextField
                     variant='outlined'
                     margin="normal"
@@ -101,6 +133,7 @@ function AddPart(props) {
                     onChange={(e) => setPart({ ...part, "description": e.target.value })}
                 />
 
+                {/* Material Selector */}
                 <Typography component="h2"> Material </Typography>
                 <TextField
                     variant='outlined'
@@ -115,7 +148,8 @@ function AddPart(props) {
                         </MenuItem>
                     ))}
                 </TextField>
-
+                    
+                {/* BOM Type Selector */}
                 <Typography component="h2"> BOM Type </Typography>
                 <ButtonGroup>
                     <Button color='primary' variant={part['bom_type'] === "component" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "component" }) }}> component </Button>
@@ -123,12 +157,27 @@ function AddPart(props) {
                     <Button color='primary' variant={part['bom_type'] === "installation" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "bom_type": "installation" }) }}> installation </Button>
                 </ButtonGroup>
 
+                {/* Parent Part ID - See conditional requirement */}
+                <Typography component="h2"> Parent Part </Typography>
+                <TextField
+                    variant='outlined'
+                    label="Parent Part ID"
+                    value={part['parent']}
+                    helperText="Any part, other than an installation, needs a parent part."
+                    required={part['bom_type'] == "component" || part['bom_type'] == "assembly"}
+                    onChange={(e) => { setPart({ ...part, parent: e.target.value }) }}
+                    > 
+
+                </TextField>
+                
+                {/* Part Source */}
                 <Typography component="h2"> Source </Typography>
                 <ButtonGroup>
                     <Button color='primary' variant={part['source'] === "internal" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "internal" }) }}> internal </Button>
                     <Button color='primary' variant={part['source'] === "external" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "external" }) }}> external </Button>
                 </ButtonGroup>
-
+                    
+                {/* Part Supplier */}
                 <Typography component="h2"> Supplier </Typography>
                 <TextField
                     variant='outlined'
@@ -143,13 +192,15 @@ function AddPart(props) {
                         </MenuItem>
                     ))}
                 </TextField>
-
+                
+                {/* Engineering Drawing */}
                 <Typography component="h2"> Does this part have a Sunswift Engineering Drawing? </Typography>
                 <ButtonGroup>
                     <Button color='primary' variant={part['drawing'] === true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": true }) }}> Yes </Button>
                     <Button color='primary' variant={part['drawing'] === false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": false }) }}> No </Button>
                 </ButtonGroup>
-
+                
+                {/* Part Number */}
                 <TextField
                     variant='outlined'
                     margin="normal"
@@ -164,6 +215,8 @@ function AddPart(props) {
                     value={part['part_num']}
                     onChange={(e) => setPart({ ...part, "part_num": e.target.value })}
                 />
+
+                {/* Quantities */}
                 <Grid container direction={'row'}>
 
                     <TextField
@@ -192,6 +245,8 @@ function AddPart(props) {
                     />
 
                 </Grid>
+
+                {/* Comments */}
                 <TextField
                     variant='outlined'
                     margin="normal"
@@ -206,8 +261,10 @@ function AddPart(props) {
                     minRows={2}
                     onChange={(e) => setPart({ ...part, "design_eng_comments": e.target.value })}
                 />
-            </Box>
+            </Box> 
+            {/* END Form Wrapper */}
             
+            {/* Submit Button */}
             <Button color="primary" variant="contained" onClick={onSubmit}>
                 Submit
             </Button>
