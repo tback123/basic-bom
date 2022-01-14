@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 import React from "react";
-import AddPart from "./AddPart"
+import AddPart from "../components/AddPart"
 import partParameters from "../data/partParameters";
 import axios from 'axios';
 

@@ -1,6 +1,6 @@
 import { Box, useTheme } from "@material-ui/core";
 import { useState } from "react";
-import PartList from "./PartList";
+import PartList from "../pages/PartList";
 import Navbar from './NavBar';
 
 function Body(props) {
