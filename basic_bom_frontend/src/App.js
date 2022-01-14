@@ -25,7 +25,6 @@ function App() {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <Navbar />
         <Body />
       </Box>
     </ThemeProvider>

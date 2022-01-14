@@ -15,6 +15,7 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
 
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExtensionIcon from '@mui/icons-material/Extension';
@@ -29,9 +30,16 @@ function Navbar(props) {
   const theme = useTheme();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [selectedPage, setSelectedPage] = useState("parts");
+  const { setPage } = props;
 
   const toggleNavBar = () => {
     setIsNavOpen(!isNavOpen);
+  }
+
+  const updatePage = (selectedPage) => {
+    console.log(selectedPage);
+    setPage(selectedPage);
   }
 
   const list = (anchor) => (
@@ -49,34 +57,34 @@ function Navbar(props) {
       <Divider />
 
       <List>
-        <ListItem button key="Parts List">
-          <ListItemIcon>
+        <ListItemButton onClick={() => {updatePage("parts")}}>
+          <ListItemIcon >
             <ExtensionIcon />
           </ListItemIcon>
           <ListItemText primary="Parts List" />
-        </ListItem>
+        </ListItemButton>
 
 
-        <ListItem button key="Suppliers">
+        <ListItemButton onClick={() => {updatePage("suppliers")}}>
           <ListItemIcon>
             <StoreIcon />
           </ListItemIcon>
           <ListItemText primary="Suppliers" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button key="Locations">
+        <ListItemButton onClick={() => {updatePage("locations")}}>
           <ListItemIcon>
             <PlaceIcon />
           </ListItemIcon>
           <ListItemText primary="Locations" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button key="Materials">
+        <ListItemButton onClick={() => {updatePage("materials")}}>
           <ListItemIcon>
             <BlurOnIcon />
           </ListItemIcon>
           <ListItemText primary="Materials" />
-        </ListItem>
+        </ListItemButton>
 
       </List>
 
