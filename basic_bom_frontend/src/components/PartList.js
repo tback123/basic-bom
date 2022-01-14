@@ -55,9 +55,11 @@ function PartList(props) {
         setIsAddPartOpen(true);
     };
 
-    const handleCloseAdd = () => {
+    const handleCloseAdd = (refresh) => {
         setIsAddPartOpen(false);
-        fetchPartData();
+        if (refresh === true) {
+            fetchPartData();
+        }
     };
 
     const addPart = (val) => {

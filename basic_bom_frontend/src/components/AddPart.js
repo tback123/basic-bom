@@ -32,12 +32,14 @@ function AddPart(props) {
     // Default Part State
     const [part, setPart] = useState(defaultPart);
     const [suppliers, setSuppliers] = useState([]);
+    const [materials, setMaterials] = useState([]);
+
     // Import Props
     const { addPart, onClose, open } = props;
 
     // Handle close
-    const handleClose = () => {
-        onClose();
+    const handleClose = (refresh = false) => {
+        onClose(refresh);
     };
 
     // Handle the submit button
@@ -45,8 +47,8 @@ function AddPart(props) {
         // Post the part to the backend
         axios.post('/parts', qs.stringify(part))
             .then((response) => {
-                // If successful, close the dialog
-                handleClose();
+                // If successful, close the dialog and force a refresh
+                handleClose(true);
             }).catch((error) => {
                 // If unsuccessful, set error true, and store the error
                 console.log(error.response.data);
@@ -55,8 +57,12 @@ function AddPart(props) {
             })
     }
 
-
+    // Get suppliers from backend
     const fetchSuppliers = () => {
+
+        // Reset Supplier list before getting updated list
+        setSuppliers([]);
+
         axios.get('/suppliers')
             .then((response) => {
                 response.data.forEach((val) => {
@@ -65,27 +71,24 @@ function AddPart(props) {
             })
     }
 
-    useEffect(fetchSuppliers, [])
+    // Get materials from backend
+    const fetchMaterials = () => {
 
+        // Reset Materials list before getting materials
+        setMaterials([]);
 
-    const materials = [
-        {
-            value: '1',
-            label: 'Material 1',
-        },
-        {
-            value: '2',
-            label: 'Material 2',
-        },
-        {
-            value: '3',
-            label: 'Material 3',
-        },
-        {
-            value: '4',
-            label: 'Material 4',
-        },
-    ];
+        axios.get('/materials')
+            .then((response) => {
+                response.data.forEach((val) => {
+                    setMaterials([...materials, val]);
+                })
+            })
+    }
+
+    useEffect(() => {
+        fetchSuppliers();
+        fetchMaterials();
+    }, [])
 
     return (
         <Dialog onClose={handleClose} open={open}>
@@ -137,8 +140,8 @@ function AddPart(props) {
                     onChange={(e) => { setPart({ ...part, material: e.target.value }) }}
                 >
                     {materials.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
+                        <MenuItem key={option.id} value={option.id}>
+                            {option.name} - (ID: {option.id})
                         </MenuItem>
                     ))}
                 </TextField>
