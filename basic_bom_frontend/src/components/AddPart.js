@@ -2,6 +2,7 @@ import { Button, Typography, Box, useTheme, Snackbar } from "@material-ui/core";
 import { TextField, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
 import { Dialog } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import { useEffect } from "react";
 import axios from "axios";
 import qs from 'qs'
 
@@ -30,6 +31,7 @@ function AddPart(props) {
 
     // Default Part State
     const [part, setPart] = useState(defaultPart);
+    const [suppliers, setSuppliers] = useState([]);
     // Import Props
     const { addPart, onClose, open } = props;
 
@@ -45,7 +47,7 @@ function AddPart(props) {
             .then((response) => {
                 // If successful, close the dialog
                 handleClose();
-            }).catch((error)=> {
+            }).catch((error) => {
                 // If unsuccessful, set error true, and store the error
                 console.log(error.response.data);
                 setIsError(true);
@@ -54,25 +56,17 @@ function AddPart(props) {
     }
 
 
+    const fetchSuppliers = () => {
+        axios.get('/suppliers')
+            .then((response) => {
+                response.data.forEach((val) => {
+                    setSuppliers([...suppliers, val])
+                })
+            })
+    }
 
-    const suppliers = [
-        {
-            value: '1',
-            label: 'Supplier 1',
-        },
-        {
-            value: '2',
-            label: 'Supplier 2',
-        },
-        {
-            value: '3',
-            label: 'Supplier 3',
-        },
-        {
-            value: '4',
-            label: 'Supplier 4',
-        },
-    ];
+    useEffect(fetchSuppliers, [])
+
 
     const materials = [
         {
@@ -95,17 +89,17 @@ function AddPart(props) {
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            {/* This is a place for the alerts to be shown */ }
-            <Snackbar 
+            {/* This is a place for the alerts to be shown */}
+            <Snackbar
                 open={isError}
-                autoHideDuration={6000} 
-                onClose={() => {setIsError(false)}}>
-                <Alert 
-                    severity="error" 
-                    onClose={() => {setIsError(false)}}>
+                autoHideDuration={6000}
+                onClose={() => { setIsError(false) }}>
+                <Alert
+                    severity="error"
+                    onClose={() => { setIsError(false) }}>
                     <AlertTitle>Error</AlertTitle>
-                    The part was not successfully added 
-                    <br/><br/>
+                    The part was not successfully added
+                    <br /><br />
                     {error}
                 </Alert>
             </Snackbar>
@@ -117,7 +111,7 @@ function AddPart(props) {
 
             {/* Form Wrapper */}
             <Box component="form" noValidate display="flex" justifyContent="center" flexDirection="column" style={{ margin: theme.spacing(1) }}>
-                
+
                 {/* Description */}
                 <TextField
                     variant='outlined'
@@ -148,7 +142,7 @@ function AddPart(props) {
                         </MenuItem>
                     ))}
                 </TextField>
-                    
+
                 {/* BOM Type Selector */}
                 <Typography component="h2"> BOM Type </Typography>
                 <ButtonGroup>
@@ -166,17 +160,17 @@ function AddPart(props) {
                     helperText="Any part, other than an installation, needs a parent part."
                     required={part['bom_type'] == "component" || part['bom_type'] == "assembly"}
                     onChange={(e) => { setPart({ ...part, parent: e.target.value }) }}
-                    > 
+                >
 
                 </TextField>
-                
+
                 {/* Part Source */}
                 <Typography component="h2"> Source </Typography>
                 <ButtonGroup>
                     <Button color='primary' variant={part['source'] === "internal" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "internal" }) }}> internal </Button>
                     <Button color='primary' variant={part['source'] === "external" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "external" }) }}> external </Button>
                 </ButtonGroup>
-                    
+
                 {/* Part Supplier */}
                 <Typography component="h2"> Supplier </Typography>
                 <TextField
@@ -187,19 +181,19 @@ function AddPart(props) {
                     onChange={(e) => { setPart({ ...part, supplier: e.target.value }) }}
                 >
                     {suppliers.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
+                        <MenuItem key={option.value} value={option.id}>
+                            {option.name} - (ID: {option.id})
                         </MenuItem>
                     ))}
                 </TextField>
-                
+
                 {/* Engineering Drawing */}
                 <Typography component="h2"> Does this part have a Sunswift Engineering Drawing? </Typography>
                 <ButtonGroup>
                     <Button color='primary' variant={part['drawing'] === true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": true }) }}> Yes </Button>
                     <Button color='primary' variant={part['drawing'] === false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": false }) }}> No </Button>
                 </ButtonGroup>
-                
+
                 {/* Part Number */}
                 <TextField
                     variant='outlined'
@@ -261,9 +255,9 @@ function AddPart(props) {
                     minRows={2}
                     onChange={(e) => setPart({ ...part, "design_eng_comments": e.target.value })}
                 />
-            </Box> 
+            </Box>
             {/* END Form Wrapper */}
-            
+
             {/* Submit Button */}
             <Button color="primary" variant="contained" onClick={onSubmit}>
                 Submit
