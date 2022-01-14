@@ -73,6 +73,7 @@ function PartList(props) {
             <DataGrid rows={partsState}
                 columns={partParameters}
                 autoHeight='true'
+                density="compact"
                 checkboxSelection
                 disableSelectionOnClick
                 disableColumnMenu 
