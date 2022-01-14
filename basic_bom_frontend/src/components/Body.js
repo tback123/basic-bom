@@ -1,6 +1,7 @@
 import { Box, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import PartList from "../pages/PartList";
+import BasicCRUD from "../components/BasicCRUD"
 import Navbar from './NavBar';
 
 function Body(props) {
@@ -13,7 +14,7 @@ function Body(props) {
     const conditionalBody = () => {
         switch(currPage) {
             case "parts":
-                return <PartList />
+                return <BasicCRUD />
             default:
         }
     }
