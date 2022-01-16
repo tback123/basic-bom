@@ -42,14 +42,14 @@ function AddPart(props) {
         // Post the part to the backend
         axios.post('/parts', qs.stringify(part))
             .then((response) => {
+                console.log("**");
                 // If successful, reset the form, close the dialog and force a refresh
+                // console.log(response);
                 setPart(defaultPart);
                 onClose(true);
             }).catch((error) => {
-                // If unsuccessful, set error true, and store the error
-                console.log(error.response);
-                setIsError(true);
-                setError(error.response);
+                setError(JSON.stringify(error.response.data))
+                setIsError(true)
             })
     }
 
