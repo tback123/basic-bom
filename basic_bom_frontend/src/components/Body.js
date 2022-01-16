@@ -3,6 +3,9 @@ import { useState } from "react";
 import PartList from "../pages/PartList";
 import BasicCRUD from "../components/BasicCRUD"
 import Navbar from './NavBar';
+import partParameters from "../data/partParameters";
+import AddPart from "./AddPart";
+import axios from 'axios'
 
 function Body(props) {
     
@@ -14,7 +17,10 @@ function Body(props) {
     const conditionalBody = () => {
         switch(currPage) {
             case "parts":
-                return <BasicCRUD />
+                return <BasicCRUD 
+                        fetchDataMethod={async () => { return await axios.get('/parts')}} 
+                        itemParameters={partParameters}
+                        addItemForm={AddPart}/>
             default:
         }
     }

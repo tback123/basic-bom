@@ -35,12 +35,7 @@ function AddPart(props) {
     const [materials, setMaterials] = useState([]);
 
     // Import Props
-    const { addPart, onClose, open } = props;
-
-    // Handle close
-    const handleClose = (refresh = false) => {
-        onClose(refresh);
-    };
+    const { onClose } = props;
 
     // Handle the submit button
     const onSubmit = () => {
@@ -49,12 +44,12 @@ function AddPart(props) {
             .then((response) => {
                 // If successful, reset the form, close the dialog and force a refresh
                 setPart(defaultPart);
-                handleClose(true);
+                onClose(true);
             }).catch((error) => {
                 // If unsuccessful, set error true, and store the error
-                console.log(error.response.data);
+                console.log(error.response);
                 setIsError(true);
-                setError(error.response.data['error']);
+                setError(error.response);
             })
     }
 
@@ -92,7 +87,8 @@ function AddPart(props) {
     }, [])
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+
+        <>
             {/* This is a place for the alerts to be shown */}
             <Snackbar
                 open={isError}
@@ -266,7 +262,7 @@ function AddPart(props) {
             <Button color="primary" variant="contained" onClick={onSubmit}>
                 Submit
             </Button>
-        </Dialog >
+        </>
     );
 }
 

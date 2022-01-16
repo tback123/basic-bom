@@ -11,30 +11,34 @@ import { Alert } from "@material-ui/lab";
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
+import { Dialog } from "@material-ui/core";
 
-function PartList(props) {
+function BasicCRUD(props) {
     const theme = useTheme();
 
+    const { fetchDataMethod, itemParameters, addItemForm } = props
+
     const [loading, setLoading] = React.useState(true);
-    const [isAddPartOpen, setIsAddPartOpen] = React.useState(false);
-    const [partsState, setPartsState] = React.useState([])
+    const [isAddOpen, setIsAddOpen] = React.useState(false);
+    const [mainData, setMainData] = React.useState([])
     const [lastResponse, setLastResponse] = React.useState({});
 
-    // Fetch the parts from the api with partsState as a dependency of useEffect
+    // Fetch the parts from the api with mainData as a dependency of useEffect
     // This will mean the part isn't infinantly updated
     // Resource: https://dmitripavlutin.com/react-useeffect-infinite-loop/
 
-    const fetchPartData = () => {
+    // TODO: make this reusable
+    const fetchMainData = async () => {
 
-        setPartsState([]);
+        // Clear the data before updating it
+        setMainData([]);
+        setLoading(true)
 
-        axios.get('/parts')
+        await fetchDataMethod()
             .then(function (response) {
-                // Handles Successful Request
-                // console.log(response)
+                // Handles Successful Request, loop through array and add each item to the main data
                 response.data.forEach(part => {
-                    console.log("adding part")
-                    addPart(part)
+                    addItem(part)
                 });
                 setLastResponse(response);
                 setLoading(false)
@@ -44,41 +48,38 @@ function PartList(props) {
                 console.log(error)
 
             })
-            .then(function () {
-                // Always Executed
-            })
-
-        console.log(partsState)
 
     };
 
     // Fetch part data every time the component loads
     // Use the length of the partState as the dependant variable
-    useEffect((() => { fetchPartData() }), [lastResponse.dictionary]);
+    useEffect((() => { fetchMainData(); console.log("here")}), [lastResponse.dictionary]);
 
+    // Opens the main add item dialogue
     const handleOpenAdd = () => {
-        setIsAddPartOpen(true);
+        setIsAddOpen(true);
     };
 
+    // Closes the add item dialogue, Takes in a bool of if the data should be refreshed
     const handleCloseAdd = (refresh) => {
-        setIsAddPartOpen(false);
+        setIsAddOpen(false);
         if (refresh === true) {
-            fetchPartData();
+            fetchMainData();
         }
     };
 
-    const addPart = (val) => {
-
-        setPartsState(prevPartsState => [...prevPartsState, val]);
-
+    // Add item to end of the list
+    const addItem = (val) => {
+        setMainData(prevPartsState => [...prevPartsState, val]);
     }
 
     return (<>
+
         {/* Loading Alert */}
         <Snackbar
             open={loading}
             message="Note archived"
-            sx={{minWidth: "300"}}
+            sx={{ minWidth: "300" }}
         >
             <Alert severity="info">
                 <Box sx={{ width: '100%' }}>
@@ -89,8 +90,8 @@ function PartList(props) {
         </Snackbar>
 
         <Box width="100%" height="100%">
-            <DataGrid rows={partsState}
-                columns={partParameters}
+            <DataGrid rows={mainData}
+                columns={itemParameters}
                 autoHeight='true'
                 density="compact"
                 checkboxSelection
@@ -99,7 +100,11 @@ function PartList(props) {
                 components={{
                     Toolbar: GridToolbar,
                 }} />
-            <AddPart addPart={addPart} open={isAddPartOpen} onClose={handleCloseAdd} />
+
+            <Dialog onClose={handleCloseAdd} open={isAddOpen}>
+                {addItemForm(handleCloseAdd)}
+            </Dialog>
+
             <Fab color='primary'
                 style={{ position: 'fixed', bottom: theme.spacing(3), right: theme.spacing(3), }}
                 onClick={handleOpenAdd}>
@@ -110,4 +115,4 @@ function PartList(props) {
     </>)
 }
 
-export default PartList;
+export default BasicCRUD;
