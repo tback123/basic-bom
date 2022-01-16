@@ -53,7 +53,7 @@ function BasicCRUD(props) {
 
     // Fetch part data every time the component loads
     // Use the length of the partState as the dependant variable
-    useEffect((() => { fetchMainData(); console.log("here")}), [lastResponse.dictionary]);
+    useEffect((() => { fetchMainData()}), [lastResponse.dictionary]);
 
     // Opens the main add item dialogue
     const handleOpenAdd = () => {
