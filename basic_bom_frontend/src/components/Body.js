@@ -1,6 +1,5 @@
 import { Box, useTheme } from "@material-ui/core";
 import { useState } from "react";
-import PartList from "../pages/PartList";
 import BasicCRUD from "../components/BasicCRUD"
 import Navbar from './NavBar';
 import partParameters from "../data/partParameters";
