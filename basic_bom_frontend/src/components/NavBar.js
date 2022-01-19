@@ -3,7 +3,6 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  useTheme,
   Drawer
 } from "@material-ui/core";
 import Menu from "@material-ui/icons/Menu";
@@ -17,20 +16,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import PlaceIcon from '@mui/icons-material/Place';
 import StoreIcon from '@mui/icons-material/Store';
 import BlurOnIcon from '@mui/icons-material/BlurOn';
 
-import { spacing } from '@mui/system';
-
-
 function Navbar(props) {
-  const theme = useTheme();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [selectedPage, setSelectedPage] = useState("parts");
   const { setPage } = props;
 
   const toggleNavBar = () => {

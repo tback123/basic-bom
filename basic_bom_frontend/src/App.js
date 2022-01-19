@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Navbar from './components/NavBar';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Body from './components/Body';
 import { Box } from '@material-ui/core';

@@ -1,4 +1,4 @@
-export default
+const partParameters = 
 [
     {
         "field": "id",
@@ -106,4 +106,6 @@ export default
     //     "minWidth": 110,
     //     "type": "dateTime",
     // }
-]
+];
+
+export default partParameters;

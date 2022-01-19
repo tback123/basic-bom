@@ -1,6 +1,5 @@
 import { Button, Typography, Box, useTheme, Snackbar } from "@material-ui/core";
 import { TextField, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
-import { Dialog } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { useEffect } from "react";
 import axios from "axios";
@@ -83,7 +82,7 @@ function AddPart({ onClose }) {
     useEffect(() => {
         fetchSuppliers();
         fetchMaterials();
-    }, [])
+    })
 
     return (
 
@@ -157,7 +156,7 @@ function AddPart({ onClose }) {
                     label="Parent Part ID"
                     value={part['parent']}
                     helperText="Any part, other than an installation, needs a parent part."
-                    required={part['bom_type'] == "component" || part['bom_type'] == "assembly"}
+                    required={part['bom_type'] === "component" || part['bom_type'] === "assembly"}
                     onChange={(e) => { setPart({ ...part, parent: e.target.value }) }}
                 >
 

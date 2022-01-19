@@ -23,7 +23,6 @@ function BasicCRUD(props) {
     // This will mean the part isn't infinantly updated
     // Resource: https://dmitripavlutin.com/react-useeffect-infinite-loop/
 
-    // TODO: make this reusable
     const fetchMainData = async () => {
 
         // Clear the data before updating it
@@ -49,7 +48,11 @@ function BasicCRUD(props) {
 
     // Fetch part data every time the component loads
     // Use the length of the partState as the dependant variable
-    useEffect((() => { fetchMainData()}), [lastResponse.dictionary]);
+    useEffect((() => { 
+        fetchMainData();
+        // Note: the below line disables the warning given by useEffect and its dependancy list
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [lastResponse.dictionary]);
 
     // Opens the main add item dialogue
     const handleOpenAdd = () => {

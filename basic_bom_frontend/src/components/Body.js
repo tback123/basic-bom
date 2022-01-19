@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { useState } from "react";
 import BasicCRUD from "../components/BasicCRUD"
 import Navbar from './NavBar';
@@ -8,8 +8,6 @@ import axios from 'axios'
 
 function Body(props) {
     
-    const theme = useTheme();
-
     // Import Props
     const [currPage, setCurrPage] = useState("parts")
 
