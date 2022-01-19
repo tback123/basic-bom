@@ -35,13 +35,13 @@ function Navbar(props) {
     setPage(selectedPage);
   }
 
-  const list = (anchor) => (
+  const list = () => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width:  250 }}
       role="presentation"
     >
       <List>
-        <ListItem key="test">
+        <ListItem key="Title">
           <ListItemText primary="Navigation" />
         </ListItem>
 
@@ -115,7 +115,6 @@ function Navbar(props) {
       </AppBar>
 
       <Drawer
-        anchor={'left'}
         open={isNavOpen}
         onClose={toggleNavBar}
       >
