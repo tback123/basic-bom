@@ -19,7 +19,13 @@ function Body(props) {
                 return <BasicCRUD 
                         fetchDataMethod={async () => { return await axios.get('/parts')}} 
                         itemParameters={partParameters}
-                        addItemForm={AddPart}/>
+                        addItemForm={<AddPart />} /> 
+            // case "suppliers":
+            //     return <BasicCRUD
+            //             fetchDataMethod={async () => { return await axios.get('/suppliers')}}
+            //             itemParameters={supplierParamaters}
+            //             addItemForm={AddSupplier}
+            //             />
             default:
         }
     }

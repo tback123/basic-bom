@@ -4,11 +4,7 @@ import { useEffect } from "react";
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 import React from "react";
-import AddPart from "../components/AddPart"
-import partParameters from "../data/partParameters";
-import axios from 'axios';
 import { Alert } from "@material-ui/lab";
-import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
 import { Dialog } from "@material-ui/core";
@@ -102,7 +98,9 @@ function BasicCRUD(props) {
                 }} />
 
             <Dialog onClose={handleCloseAdd} open={isAddOpen}>
-                {addItemForm(handleCloseAdd)}
+                <div>
+                    {React.cloneElement(addItemForm, {onClose: handleCloseAdd})}
+                </div>
             </Dialog>
 
             <Fab color='primary'

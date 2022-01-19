@@ -8,7 +8,7 @@ import qs from 'qs'
 
 import { useState } from "react";
 
-function AddPart(props) {
+function AddPart({ onClose }) {
     const theme = useTheme();
     const [isError, setIsError] = useState(false);
     const [error, setError] = useState();
@@ -34,9 +34,6 @@ function AddPart(props) {
     const [suppliers, setSuppliers] = useState([]);
     const [materials, setMaterials] = useState([]);
 
-    // Import Props
-    const { onClose } = props;
-
     // Handle the submit button
     const onSubmit = () => {
         // Post the part to the backend
@@ -47,8 +44,10 @@ function AddPart(props) {
                 // console.log(response);
                 setPart(defaultPart);
                 onClose(true);
+                setIsError(false);
+                return;
             }).catch((error) => {
-                setError(JSON.stringify(error.response.data))
+                setError(JSON.stringify(error.response))
                 setIsError(true)
             })
     }
