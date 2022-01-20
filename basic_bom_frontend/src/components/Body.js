@@ -53,10 +53,6 @@ function Body(props) {
 
     return (<>
         <Navbar setPage={setCurrPage} />
-        <div>
-            {currPage}
-        </div>
-
         <Box width="95%">
             {conditionalBody()}
         </Box>
