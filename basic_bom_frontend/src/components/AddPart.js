@@ -1,4 +1,4 @@
-import { Button, Typography, Box, useTheme, Snackbar } from "@material-ui/core";
+import { Button, Typography, Box, useTheme, Snackbar, Select } from "@material-ui/core";
 import { TextField, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { useEffect } from "react";
@@ -38,7 +38,6 @@ function AddPart({ onClose }) {
         // Post the part to the backend
         axios.post('/parts', qs.stringify(part))
             .then((response) => {
-                console.log("**");
                 // If successful, reset the form, close the dialog and force a refresh
                 // console.log(response);
                 setPart(defaultPart);
@@ -59,8 +58,8 @@ function AddPart({ onClose }) {
 
         axios.get('/suppliers')
             .then((response) => {
-                response.data.forEach((val) => {
-                    setSuppliers([...suppliers, val])
+                response.data.forEach((newItem) => {
+                    setSuppliers(prevState => [...prevState, newItem])
                 })
             })
     }
@@ -73,8 +72,8 @@ function AddPart({ onClose }) {
 
         axios.get('/materials')
             .then((response) => {
-                response.data.forEach((val) => {
-                    setMaterials([...materials, val]);
+                response.data.forEach((newItem) => {
+                    setMaterials(prevState => [...prevState, newItem]);
                 })
             })
     }
@@ -175,16 +174,16 @@ function AddPart({ onClose }) {
                 <Typography component="h2"> Supplier </Typography>
                 <TextField
                     variant='outlined'
-                    select
                     label="Select"
+                    select
                     value={part['supplier']}
                     onChange={(e) => { setPart({ ...part, supplier: e.target.value }) }}
                 >
-                    {suppliers.map((option) => (
-                        <MenuItem key={option.value} value={option.id}>
+                    {suppliers.map((option) => {
+                        return <MenuItem key={option.id} value={option.id}>
                             {option.name} - (ID: {option.id})
                         </MenuItem>
-                    ))}
+                    })}
                 </TextField>
 
                 {/* Engineering Drawing */}
