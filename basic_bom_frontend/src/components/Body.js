@@ -11,7 +11,6 @@ function Body(props) {
     
     // Import Props
     const [currPage, setCurrPage] = useState("parts")
-    const [reRender, setReRender] = useState(false);
 
     const conditionalBody = () => {
 

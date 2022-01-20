@@ -82,7 +82,9 @@ function AddPart({ onClose }) {
     useEffect(() => {
         fetchSuppliers();
         fetchMaterials();
-    })
+        // Note: the below line disables the warning given by useEffect and its dependancy list
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
 
