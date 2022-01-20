@@ -1,4 +1,5 @@
 {
+  "homepage": "https://tback123.github.io/basic-bom",
   "name": "basic_bom_frontend",
   "version": "0.1.0",
   "private": true,
@@ -16,6 +17,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.4",
     "formik": "^2.2.9",
+    "gh-pages": "^3.2.3",
     "qs": "^6.10.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -23,6 +25,8 @@
     "yup": "^0.32.9"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b main",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
