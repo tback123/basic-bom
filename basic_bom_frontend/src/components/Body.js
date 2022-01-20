@@ -7,6 +7,7 @@ import supplierParameters from "../data/supplierParameters";
 import locationParameters from "../data/locationParameters";
 import materialParameters from "../data/materialParameters";
 import AddPart from "./AddPart";
+import AddSupplier from "./AddSupplier";
 import axios from 'axios'
 
 function Body(props) {
@@ -28,7 +29,7 @@ function Body(props) {
                 return <BasicCRUD
                     fetchDataMethod={async () => { return await axios.get('/suppliers') }}
                     itemParameters={supplierParameters}
-                    addItemForm={<AddPart />}
+                    addItemForm={<AddSupplier />}
                     currPage={currPage}
                 />
             case "locations":
