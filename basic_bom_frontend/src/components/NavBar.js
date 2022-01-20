@@ -33,6 +33,7 @@ function Navbar(props) {
   const updatePage = (selectedPage) => {
     console.log(selectedPage);
     setPage(selectedPage);
+    setIsNavOpen(false);
   }
 
   const list = () => (
