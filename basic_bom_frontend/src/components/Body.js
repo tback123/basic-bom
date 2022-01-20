@@ -9,6 +9,7 @@ import materialParameters from "../data/materialParameters";
 import AddPart from "./AddPart";
 import AddSupplier from "./AddSupplier";
 import AddLocation from "./AddLocation";
+import AddMaterial from "./AddMaterial";
 import axios from 'axios'
 
 function Body(props) {
@@ -44,7 +45,7 @@ function Body(props) {
                 return <BasicCRUD
                     fetchDataMethod={async () => { return await axios.get('/materials') }}
                     itemParameters={materialParameters}
-                    addItemForm={<AddPart />}
+                    addItemForm={<AddMaterial />}
                     currPage={currPage}
                 />
             default:
@@ -52,7 +53,7 @@ function Body(props) {
     }
 
     return (<>
-        <Navbar setPage={setCurrPage} />
+        <Navbar page={currPage} setPage={setCurrPage} />
         <Box width="95%">
             {conditionalBody()}
         </Box>

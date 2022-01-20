@@ -20,11 +20,13 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import PlaceIcon from '@mui/icons-material/Place';
 import StoreIcon from '@mui/icons-material/Store';
 import BlurOnIcon from '@mui/icons-material/BlurOn';
+import { useTheme } from "@emotion/react";
 
 function Navbar(props) {
+  const theme = useTheme();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const { setPage } = props;
+  const { page, setPage } = props;
 
   const toggleNavBar = () => {
     setIsNavOpen(!isNavOpen);
@@ -38,7 +40,7 @@ function Navbar(props) {
 
   const list = () => (
     <Box
-      sx={{ width:  250 }}
+      sx={{ width: 250 }}
       role="presentation"
     >
       <List>
@@ -51,7 +53,10 @@ function Navbar(props) {
       <Divider />
 
       <List>
-        <ListItemButton onClick={() => {updatePage("parts")}}>
+        <ListItemButton
+          onClick={() => { updatePage("parts") }}
+          selected={page === "parts"}
+        >
           <ListItemIcon >
             <ExtensionIcon />
           </ListItemIcon>
@@ -59,21 +64,30 @@ function Navbar(props) {
         </ListItemButton>
 
 
-        <ListItemButton onClick={() => {updatePage("suppliers")}}>
+        <ListItemButton
+          onClick={() => { updatePage("suppliers") }}
+          selected={page === "suppliers"}
+        >
           <ListItemIcon>
             <StoreIcon />
           </ListItemIcon>
           <ListItemText primary="Suppliers" />
         </ListItemButton>
 
-        <ListItemButton onClick={() => {updatePage("locations")}}>
+        <ListItemButton 
+          onClick={() => { updatePage("locations") }}
+          selected={page === "locations"}
+        >
           <ListItemIcon>
             <PlaceIcon />
           </ListItemIcon>
           <ListItemText primary="Locations" />
         </ListItemButton>
 
-        <ListItemButton onClick={() => {updatePage("materials")}}>
+        <ListItemButton 
+          onClick={() => { updatePage("materials") }}
+          selected={page === "materials"}
+        >
           <ListItemIcon>
             <BlurOnIcon />
           </ListItemIcon>
@@ -107,7 +121,7 @@ function Navbar(props) {
             <Menu />
           </IconButton>
           <Typography variant="h6">
-            A Basic Bill of Materials
+            A Basic Bill of Materials (& Everything)
           </Typography>
         </Toolbar>
 
