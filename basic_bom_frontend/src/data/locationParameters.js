@@ -37,7 +37,7 @@ const locationParameters =
         "width": 140
     },
     {
-        "field": "Comments",
+        "field": "comments",
         "headerName": "Comments",
         "minWidth": 120,
         "width": 140
