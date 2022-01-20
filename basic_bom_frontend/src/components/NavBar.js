@@ -20,10 +20,8 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import PlaceIcon from '@mui/icons-material/Place';
 import StoreIcon from '@mui/icons-material/Store';
 import BlurOnIcon from '@mui/icons-material/BlurOn';
-import { useTheme } from "@emotion/react";
 
 function Navbar(props) {
-  const theme = useTheme();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { page, setPage } = props;
