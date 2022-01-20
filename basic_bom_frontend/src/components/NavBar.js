@@ -121,7 +121,7 @@ function Navbar(props) {
             <Menu />
           </IconButton>
           <Typography variant="h6">
-            A Basic Bill of Materials (& Everything)
+            A (Not so) Basic Bill of Materials (& Everything)
           </Typography>
         </Toolbar>
 
