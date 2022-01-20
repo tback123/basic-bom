@@ -1,4 +1,4 @@
-export default
+const partParameters = 
 [
     {
         "field": "id",
@@ -93,17 +93,7 @@ export default
         "type": "number",
         "minWidth": 50,
         "width": 150
-    },
-    // {
-    //     "field": "created_at",
-    //     "headerName": "Created At",
-    //     "minWidth": 110,
-    //     "type": "dateTime",
-    // },
-    // {
-    //     "field": "updated_at",
-    //     "headerName": "Last Update",
-    //     "minWidth": 110,
-    //     "type": "dateTime",
-    // }
-]
+    }
+];
+
+export default partParameters;

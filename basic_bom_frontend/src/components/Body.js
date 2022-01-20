@@ -1,12 +1,61 @@
-import { Box, useTheme } from "@material-ui/core";
-import PartList from "./PartList";
+import { Box } from "@material-ui/core";
+import { useState } from "react";
+import BasicCRUD from "../components/BasicCRUD"
+import Navbar from './NavBar';
+import partParameters from "../data/partParameters";
+import supplierParameters from "../data/supplierParameters";
+import locationParameters from "../data/locationParameters";
+import materialParameters from "../data/materialParameters";
+import AddPart from "./AddPart";
+import AddSupplier from "./AddSupplier";
+import AddLocation from "./AddLocation";
+import AddMaterial from "./AddMaterial";
+import axios from 'axios'
 
+function Body(props) {
 
-function Body() {
-    const theme = useTheme();
+    // Import Props
+    const [currPage, setCurrPage] = useState("parts")
+
+    const conditionalBody = () => {
+
+        switch (currPage) {
+            case "parts":
+                return <BasicCRUD
+                    fetchDataMethod={async () => { return await axios.get('/parts') }}
+                    itemParameters={partParameters}
+                    addItemForm={<AddPart />}
+                    currPage={currPage}
+                />
+            case "suppliers":
+                return <BasicCRUD
+                    fetchDataMethod={async () => { return await axios.get('/suppliers') }}
+                    itemParameters={supplierParameters}
+                    addItemForm={<AddSupplier />}
+                    currPage={currPage}
+                />
+            case "locations":
+                return <BasicCRUD
+                    fetchDataMethod={async () => { return await axios.get('/locations') }}
+                    itemParameters={locationParameters}
+                    addItemForm={<AddLocation />}
+                    currPage={currPage}
+                />
+            case "materials":
+                return <BasicCRUD
+                    fetchDataMethod={async () => { return await axios.get('/materials') }}
+                    itemParameters={materialParameters}
+                    addItemForm={<AddMaterial />}
+                    currPage={currPage}
+                />
+            default:
+        }
+    }
+
     return (<>
+        <Navbar page={currPage} setPage={setCurrPage} />
         <Box width="95%">
-            <PartList />
+            {conditionalBody()}
         </Box>
     </>)
 }
