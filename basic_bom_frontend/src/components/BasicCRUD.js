@@ -12,12 +12,11 @@ import { Dialog } from "@material-ui/core";
 function BasicCRUD(props) {
     const theme = useTheme();
 
-    const { fetchDataMethod, itemParameters, addItemForm } = props
+    const { fetchDataMethod, itemParameters, addItemForm, currPage } = props
 
     const [loading, setLoading] = React.useState(true);
     const [isAddOpen, setIsAddOpen] = React.useState(false);
     const [mainData, setMainData] = React.useState([])
-    const [lastResponse, setLastResponse] = React.useState({});
 
     // Fetch the parts from the api with mainData as a dependency of useEffect
     // This will mean the part isn't infinantly updated
@@ -35,7 +34,6 @@ function BasicCRUD(props) {
                 response.data.forEach(part => {
                     addItem(part)
                 });
-                setLastResponse(response);
                 setLoading(false)
             })
             .catch(function (error) {
@@ -52,7 +50,7 @@ function BasicCRUD(props) {
         fetchMainData();
         // Note: the below line disables the warning given by useEffect and its dependancy list
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [lastResponse.dictionary]);
+    }), [currPage]);
 
     // Opens the main add item dialogue
     const handleOpenAdd = () => {
