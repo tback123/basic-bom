@@ -3,7 +3,7 @@ const supplierParameters =
     {
         "field": "id",
         "headerName": "ID",
-        "hide": true
+        "hide": false
     },
     {
         "field": "name",

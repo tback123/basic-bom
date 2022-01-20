@@ -4,37 +4,53 @@ import BasicCRUD from "../components/BasicCRUD"
 import Navbar from './NavBar';
 import partParameters from "../data/partParameters";
 import supplierParameters from "../data/supplierParameters";
+import locationParameters from "../data/locationParameters";
+import materialParameters from "../data/materialParameters";
 import AddPart from "./AddPart";
 import axios from 'axios'
 
 function Body(props) {
-    
+
     // Import Props
     const [currPage, setCurrPage] = useState("parts")
 
     const conditionalBody = () => {
 
-        switch(currPage) {
+        switch (currPage) {
             case "parts":
-                return <BasicCRUD 
-                        fetchDataMethod={async () => { return await axios.get('/parts')}} 
-                        itemParameters={partParameters}
-                        addItemForm={<AddPart />} 
-                        currPage={currPage}
-                        /> 
+                return <BasicCRUD
+                    fetchDataMethod={async () => { return await axios.get('/parts') }}
+                    itemParameters={partParameters}
+                    addItemForm={<AddPart />}
+                    currPage={currPage}
+                />
             case "suppliers":
                 return <BasicCRUD
-                        fetchDataMethod={async () => { return await axios.get('/suppliers')}}
-                        itemParameters={supplierParameters}
-                        addItemForm={<AddPart />} 
-                        currPage={currPage}
-                        />
+                    fetchDataMethod={async () => { return await axios.get('/suppliers') }}
+                    itemParameters={supplierParameters}
+                    addItemForm={<AddPart />}
+                    currPage={currPage}
+                />
+            case "locations":
+                return <BasicCRUD
+                    fetchDataMethod={async () => { return await axios.get('/locations') }}
+                    itemParameters={locationParameters}
+                    addItemForm={<AddPart />}
+                    currPage={currPage}
+                />
+            case "materials":
+                return <BasicCRUD
+                    fetchDataMethod={async () => { return await axios.get('/materials') }}
+                    itemParameters={materialParameters}
+                    addItemForm={<AddPart />}
+                    currPage={currPage}
+                />
             default:
         }
     }
-    
+
     return (<>
-        <Navbar setPage={setCurrPage}/>
+        <Navbar setPage={setCurrPage} />
         <div>
             {currPage}
         </div>
