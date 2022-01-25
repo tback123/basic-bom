@@ -1,4 +1,4 @@
-import { Button, Typography, Box, useTheme, Snackbar } from "@material-ui/core";
+import { Button, Typography, Box, useTheme, Snackbar, Divider } from "@material-ui/core";
 import { TextField, ButtonGroup, MenuItem, Grid } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { useEffect } from "react";
@@ -10,7 +10,10 @@ import { useState } from "react";
 function AddPart({ onClose }) {
     const theme = useTheme();
     const [isError, setIsError] = useState(false);
+    const [partType, setPartType] = useState("proprietary");
+    const [spareQty, setSpareQty] = useState();
     const [error, setError] = useState();
+
 
     const defaultPart = {
         description: "",
@@ -78,12 +81,144 @@ function AddPart({ onClose }) {
             })
     }
 
+    // Calculates the number of parts to be orders
+    const updateQty = () => {
+        setPart({ ...part, 'order_qty': ( parseInt(part['qty_per']) + parseInt(spareQty)) });
+    }
+
     useEffect(() => {
         fetchSuppliers();
         fetchMaterials();
         // Note: the below line disables the warning given by useEffect and its dependancy list
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const proprietaryPartForm = () => {
+
+        return (
+            <>
+                {/* Part Supplier */}
+                <Typography component="h2"> Supplier </Typography>
+                <TextField
+                    variant='outlined'
+                    label="Select"
+                    select
+                    value={part['supplier']}
+                    onChange={(e) => { setPart({ ...part, supplier: e.target.value }) }}
+                >
+                    {suppliers.map((option) => {
+                        return <MenuItem key={option.id} value={option.id}>
+                            {option.name} - (ID: {option.id})
+                        </MenuItem>
+                    })}
+                </TextField>
+
+                {/* Order Code (Fills the part-num field)*/}
+                <TextField
+                    variant='outlined'
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="order_code"
+                    label="Order Code"
+                    helperText="Ensure to select the ORDER code and NOT the manufacturer part number!"
+                    placeholder="2857210"
+                    name="order_code"
+                    autoFocus
+                    value={part['part_num']}
+                    onChange={(e) => setPart({ ...part, "part_num": e.target.value })}
+                />
+
+            </>
+        )
+    }
+
+    const bespokePartForm = () => {
+        return (
+            <>
+                {/* Part Number */}
+                <TextField
+                    variant='outlined'
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="part_num"
+                    label="Part Number"
+                    helperText
+                    placeholder="SR8-ES-0001"
+                    name="part_num"
+                    autoFocus
+                    value={part['part_num']}
+                    onChange={(e) => setPart({ ...part, "part_num": e.target.value })}
+                />
+
+                {/* Material Selector */}
+                <Typography component="h2"> Material </Typography>
+                <TextField
+                    variant='outlined'
+                    select
+                    label="Select"
+                    value={part['material']}
+                    onChange={(e) => { setPart({ ...part, material: e.target.value }) }}
+                >
+                    {materials.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                            {option.name} - (ID: {option.id})
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+                {/* Part Supplier */}
+                <Typography component="h2"> Supplier </Typography>
+                <TextField
+                    variant='outlined'
+                    label="Select"
+                    select
+                    value={part['supplier']}
+                    onChange={(e) => { setPart({ ...part, supplier: e.target.value }) }}
+                >
+                    {suppliers.map((option) => {
+                        return <MenuItem key={option.id} value={option.id}>
+                            {option.name} - (ID: {option.id})
+                        </MenuItem>
+                    })}
+                </TextField>
+
+
+                {/* Engineering Drawing */}
+                <Typography component="h2"> Has the engineering drawing been released? </Typography>
+                <ButtonGroup>
+                    <Button color='primary' variant={part['drawing'] === true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": true }) }}> Yes </Button>
+                    <Button color='primary' variant={part['drawing'] === false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": false }) }}> No </Button>
+                </ButtonGroup>
+
+                {/* Part Source */}
+                <Typography component="h2"> Source </Typography>
+                <ButtonGroup>
+                    <Button color='primary' variant={part['source'] === "internal" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "internal" }) }}> internal </Button>
+                    <Button color='primary' variant={part['source'] === "external" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "external" }) }}> external </Button>
+                </ButtonGroup>
+
+
+            </>
+        )
+    }
+
+    const currentPartForm = () => {
+        if (partType === "proprietary") {
+            return proprietaryPartForm();
+        } else if (partType === "bespoke") {
+            return bespokePartForm();
+        }
+    }
+
+    const internalPartForm = () => {
+        return(
+            <>
+            
+            </>
+        )
+    }
 
     return (
 
@@ -109,7 +244,7 @@ function AddPart({ onClose }) {
             </Typography>
 
             {/* Form Wrapper */}
-            <Box component="form" noValidate display="flex" justifyContent="center" flexDirection="column" style={{ margin: theme.spacing(1) }}>
+            <Box component="form" noValidate display="flex" justifyContent="center" flexDirection="column" style={{ margin: theme.spacing(3) }}>
 
                 {/* Description */}
                 <TextField
@@ -125,22 +260,6 @@ function AddPart({ onClose }) {
                     value={part['description']}
                     onChange={(e) => setPart({ ...part, "description": e.target.value })}
                 />
-
-                {/* Material Selector */}
-                <Typography component="h2"> Material </Typography>
-                <TextField
-                    variant='outlined'
-                    select
-                    label="Select"
-                    value={part['material']}
-                    onChange={(e) => { setPart({ ...part, material: e.target.value }) }}
-                >
-                    {materials.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                            {option.name} - (ID: {option.id})
-                        </MenuItem>
-                    ))}
-                </TextField>
 
                 {/* BOM Type Selector */}
                 <Typography component="h2"> BOM Type </Typography>
@@ -159,55 +278,41 @@ function AddPart({ onClose }) {
                     helperText="Any part, other than an installation, needs a parent part."
                     required={part['bom_type'] === "component" || part['bom_type'] === "assembly"}
                     onChange={(e) => { setPart({ ...part, parent: e.target.value }) }}
-                >
+                > </TextField>
 
-                </TextField>
-
-                {/* Part Source */}
-                <Typography component="h2"> Source </Typography>
-                <ButtonGroup>
-                    <Button color='primary' variant={part['source'] === "internal" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "internal" }) }}> internal </Button>
-                    <Button color='primary' variant={part['source'] === "external" ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "source": "external" }) }}> external </Button>
-                </ButtonGroup>
-
-                {/* Part Supplier */}
-                <Typography component="h2"> Supplier </Typography>
+                {/* Department Selector */}
+                <Typography component="h2"> Relevant Department </Typography>
                 <TextField
                     variant='outlined'
-                    label="Select"
-                    select
-                    value={part['supplier']}
-                    onChange={(e) => { setPart({ ...part, supplier: e.target.value }) }}
-                >
-                    {suppliers.map((option) => {
-                        return <MenuItem key={option.id} value={option.id}>
-                            {option.name} - (ID: {option.id})
-                        </MenuItem>
-                    })}
-                </TextField>
+                    label="Department"
+                // value={part['parent']}
+                // onChange={(e) => { setPart({ ...part, parent: e.target.value }) }}
+                > </TextField>
 
-                {/* Engineering Drawing */}
-                <Typography component="h2"> Does this part have a Sunswift Engineering Drawing? </Typography>
-                <ButtonGroup>
-                    <Button color='primary' variant={part['drawing'] === true ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": true }) }}> Yes </Button>
-                    <Button color='primary' variant={part['drawing'] === false ? 'contained' : 'outlined'} onClick={() => { setPart({ ...part, "drawing": false }) }}> No </Button>
-                </ButtonGroup>
-
-                {/* Part Number */}
+                {/* Subsystem Selector */}
+                <Typography component="h2"> Relevant Subsystem </Typography>
                 <TextField
                     variant='outlined'
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="part_num"
-                    label="Part Number"
-                    helperText
-                    placeholder="SR8-ES-0001"
-                    name="part_num"
-                    autoFocus
-                    value={part['part_num']}
-                    onChange={(e) => setPart({ ...part, "part_num": e.target.value })}
-                />
+                    label="Subsystem"
+                // value={part['parent']}
+                // onChange={(e) => { setPart({ ...part, parent: e.target.value }) }}
+                > </TextField>
+
+
+
+                {/* Propritery or Bespoke */}
+                <Typography component="h2"> Part Type </Typography>
+                <ButtonGroup>
+                    <Button color='primary' variant={partType === "proprietary" ? 'contained' : 'outlined'} onClick={() => { setPartType("proprietary") }}> proprietary </Button>
+                    <Button color='primary' variant={partType === "bespoke" ? 'contained' : 'outlined'} onClick={() => { setPartType("bespoke") }}> bespoke </Button>
+                </ButtonGroup>
+
+
+                <Divider></Divider>
+
+                {currentPartForm()}
+
+                <Divider></Divider>
 
                 {/* Quantities */}
                 <Grid container direction={'row'}>
@@ -216,12 +321,12 @@ function AddPart({ onClose }) {
                         variant='outlined'
                         margin="normal"
                         required
-                        id="qty_per"
-                        label="Quantity Per"
-                        name="qty_per"
+                        id="qty_on_car"
+                        label="Quantity On Car"
+                        name="qty_on_car"
                         autoFocus
                         value={part['qty_per']}
-                        onChange={(e) => setPart({ ...part, "qty_per": e.target.value })}
+                        onChange={(e) => { setPart({ ...part, "qty_per": e.target.value }); }}
                     />
 
 
@@ -229,15 +334,16 @@ function AddPart({ onClose }) {
                         variant='outlined'
                         margin="normal"
                         required
-                        id="to_order"
-                        label="Quantity To Order"
-                        name="qty_to_order"
+                        id="qty_spare"
+                        label="Quantity for Spare"
+                        name="qty_spare"
                         autoFocus
-                        value={part['order_qty']}
-                        onChange={(e) => setPart({ ...part, "order_qty": e.target.value })}
+                        value={spareQty}
+                        onChange={(e) => { setSpareQty(e.target.value); updateQty(); }}
                     />
 
                 </Grid>
+                <Typography> Total number of parts: {part['order_qty']}</Typography>
 
                 {/* Comments */}
                 <TextField
