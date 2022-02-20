@@ -1,3 +1,7 @@
+# DEPRECIATED
+
+This repo is no longer maintained, as it has been reloaced to a private org until ready for release. More to come later.
+
 # Basic Bom
 A basic bill of materials platform.
 > A Note: Stil very much in development
